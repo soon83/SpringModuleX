@@ -1,3 +1,7 @@
 dependencies {
+    // common
+    implementation project(':common-enums')
+    implementation project(':common-utils')
+
     implementation libs.spring.boot.starter.data.jpa
 }

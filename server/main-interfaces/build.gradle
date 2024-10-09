@@ -1,3 +1,10 @@
 dependencies {
+    // common
+    implementation project(':common-enums')
+    implementation project(':common-utils')
+
+    // core
+    implementation project(':core-application')
+    implementation project(':core-domain')
 
 }

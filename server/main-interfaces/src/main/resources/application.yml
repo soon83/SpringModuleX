@@ -1,0 +1,52 @@
+server:
+  port: 8080
+  shutdown: graceful
+
+application:
+  title: main-server
+
+spring:
+  application:
+    name: ${application.title}
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        one-indexed-parameters: true
+
+file-path:
+  root: ${file-path.application-root}/${spring.application.name}
+  upload:
+    root: ${file-path.application-root}/uploads
+    file: ${file-path.upload.root}/file
+
+---
+# LOCAL
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:13306/spring_module_x_local?serverTimezone=UTC&characterEncoding=UTF-8
+    username: spring_module_x_local
+    password: spring_module_x_local!@34
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        default_batch_fetch_size: 100
+
+file-path:
+  application-root: /Users/ds/Downloads/springboot/${application.title}
+
+logging:
+  file:
+    path: ${file-path.root}/logs
+    name: ${spring.config.activate.on-profile}
+  config: classpath:logback-${spring.config.activate.on-profile}.xml
