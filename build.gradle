@@ -12,17 +12,9 @@ buildscript {
     }
 }
 
-plugins {
-    id 'pl.allegro.tech.build.axion-release' version '1.18.7'
-}
-
-scmVersion {
-    versionIncrementer 'incrementPatch'
-}
-
 allprojects {
     group = packageGroup
-    version = scmVersion.version + '-' + new SimpleDateFormat("yyMMdd_HHmmss").format(new Date())
+    version = '1.0.0-' + new SimpleDateFormat("yyMMdd_HHmmss").format(new Date())
 
     repositories {
         mavenCentral()
