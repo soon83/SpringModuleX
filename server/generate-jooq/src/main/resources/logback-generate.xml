@@ -44,15 +44,12 @@
         </rollingPolicy>
     </appender>
 
-
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.hibernate" level="INFO"/>
-    <logger name="org.hibernate.SQL" level="INFO"/>
-    <logger name="org.jooq.Constants" level="ERROR"/>
-    <logger name="org.jooq.impl.DSL" level="ERROR"/>
-    <logger name="org.jooq.tools.LoggerListener" level="DEBUG"/>
-    <logger name="org.jooq.impl.ExecuteListener" level="DEBUG"/>
-    <logger name="org.jooq.ExecuteContext" level="DEBUG"/>
+    <logger name="org.hibernate.SQL" level="DEBUG"/>
+    <logger name="org.hibernate.engine.transaction.internal.TransactionImpl" level="DEBUG"/>
+    <logger name="org.hibernate.orm.jdbc.bind" level="TRACE"/>
+    <logger name="org.jooq" level="OFF"/>
     <logger name="com.soon83" level="DEBUG"/>
 
     <root level="INFO">
