@@ -1,22 +1,19 @@
 server:
   shutdown: graceful
 
-application:
-  title: main-server
-
 spring:
   application:
-    name: ${application.title}
-  data:
-    web:
-      pageable:
-        default-page-size: 10
-        one-indexed-parameters: true
+    name: main-server
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
     username: spring_module_x_${spring.config.activate.on-profile}
     password: spring_module_x_${spring.config.activate.on-profile}!@34
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        one-indexed-parameters: true
   jpa:
     open-in-view: false
     database-platform: org.hibernate.dialect.MariaDBDialect
@@ -54,7 +51,7 @@ spring:
       on-profile: local
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${application.title}
+  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
 
 ---
 # TEST
@@ -69,7 +66,7 @@ spring:
       on-profile: test
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${application.title}
+  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
 
 ---
 # STAGING
@@ -84,7 +81,7 @@ spring:
       on-profile: staging
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${application.title}
+  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
 
 ---
 # PROD
@@ -99,4 +96,4 @@ spring:
       on-profile: prod
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${application.title}
+  application-root: /Users/ds/Downloads/springboot/${spring.application.name}

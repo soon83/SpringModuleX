@@ -1,12 +1,6 @@
-server:
-  shutdown: graceful
-
-application:
-  title: generate-jooq-server
-
 spring:
   application:
-    name: ${application.title}
+    name: generate-jooq-server
   main:
     web-application-type: none
   datasource:
@@ -15,7 +9,6 @@ spring:
     username: spring_module_x_${spring.config.activate.on-profile}
     password: spring_module_x_${spring.config.activate.on-profile}!@34
   jpa:
-    open-in-view: false
     database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create
@@ -42,4 +35,4 @@ spring:
       on-profile: generate
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${application.title}
+  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
