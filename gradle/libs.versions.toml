@@ -1,6 +1,7 @@
 [versions]
 jooq = "3.19.11"
 jooq-logback = "1.5.9"
+mapstruct = "1.6.2"
 
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
@@ -10,6 +11,8 @@ spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-star
 lombok = { module = "org.projectlombok:lombok" }
 logback-classic-for-jooq = { module = "ch.qos.logback:logback-classic", version.ref = "jooq-logback" }
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
+mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
+mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
 #h2 = { module = "com.h2database:h2" }
 mariadb-java-client = { module = "org.mariadb.jdbc:mariadb-java-client" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }

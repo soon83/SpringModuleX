@@ -46,8 +46,10 @@ subprojects {
         // default
         compileOnly libs.lombok
         annotationProcessor libs.lombok
+        annotationProcessor libs.mapstruct.processor
         implementation libs.spring.boot.starter.web
         implementation libs.spring.boot.starter.validation
+        implementation libs.mapstruct
 
         // test
         testImplementation libs.spring.boot.starter.test
@@ -58,12 +60,19 @@ subprojects {
     tasks.named('test') {
         useJUnitPlatform()
     }
+
+    // build task 전에 clean 먼저 실행
+    tasks.named('build').configure {
+        dependsOn 'clean'
+    }
+
+    tasks.withType(JavaCompile).tap {
+        configureEach {
+            options.annotationProcessorPath = configurations.annotationProcessor
+        }
+    }
 }
 
-// build task 전에 clean 먼저 실행
-tasks.named('build').configure {
-    dependsOn 'clean'
-}
 
 // noneBootJarModules (bootJar = false)
 noneBootJarModules.split(',').each { module ->

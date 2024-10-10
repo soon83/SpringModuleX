@@ -15,13 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/member-list")
 @RequiredArgsConstructor
 public class MemberController {
+	private final MemberResponseMapper memberResponseMapper;
 	private final MemberFacade memberFacade;
 
 	@GetMapping("/{userId}")
 	public MemberInfoResponse searchMemberInfo(@PathVariable Long userId) {
 		log.debug("# searchUserInfo # userId: {}", userId);
 		MemberInfo memberInfo = memberFacade.searchMemberInfo(userId);
-		return new MemberInfoResponse(memberInfo);
+		return memberResponseMapper.toMemberInfoResponse(memberInfo);
 	}
 
 	@GetMapping("/all")
@@ -29,7 +30,7 @@ public class MemberController {
 		log.debug("# searchMemberInfoList");
 		List<MemberInfo> memberInfoList = memberFacade.searchAllMemberInfoList();
 		return memberInfoList.stream()
-			.map(MemberInfoResponse::new)
+			.map(memberResponseMapper::toMemberInfoResponse)
 			.toList();
 	}
 }

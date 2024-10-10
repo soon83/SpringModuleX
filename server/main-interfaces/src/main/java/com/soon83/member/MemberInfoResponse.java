@@ -2,23 +2,20 @@ package com.soon83.member;
 
 import com.soon83.enums.UserRole;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public class MemberInfoResponse {
-	private final Long userId;
+	private final Long memberId;
 	private final String loginId;
 	private final String password;
 	private final String name;
 	private final String email;
 	private final UserRole role;
 
-	public MemberInfoResponse(MemberInfo member) {
-		this.userId = member.getUserId();
-		this.loginId = member.getLoginId();
-		this.password = member.getPassword();
-		this.name = member.getName();
-		this.email = member.getEmail();
-		this.role = member.getRole();
+	public String getRoleTitle() {
+		return role.getTitle();
 	}
 }
