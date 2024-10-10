@@ -1,6 +1,6 @@
 package com.soon83.member;
 
-import com.soon83.UserRole;
+import com.soon83.enums.UserRole;
 
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class MemberInfo {
 	private final UserRole role;
 
 	public MemberInfo(Member member) {
-		this.userId = member.getUserId();
+		this.userId = member.getMemberId();
 		this.loginId = member.getLoginId();
 		this.password = member.getPassword();
 		this.name = member.getName();

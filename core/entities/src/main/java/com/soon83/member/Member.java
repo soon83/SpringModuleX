@@ -3,7 +3,7 @@ package com.soon83.member;
 import org.hibernate.annotations.Comment;
 
 import com.soon83.BaseEntity;
-import com.soon83.UserRole;
+import com.soon83.enums.UserRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,9 +38,9 @@ import lombok.NoArgsConstructor;
 public class Member extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", nullable = false)
+	@Column(name = "member_id", nullable = false)
 	@Comment("아이디")
-	private Long userId;
+	private Long memberId;
 
 	@Column(name = "login_id", nullable = false, length = 63)
 	@Comment("로그인 아이디")

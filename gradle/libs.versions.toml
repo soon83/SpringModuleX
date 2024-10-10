@@ -1,5 +1,6 @@
 [versions]
-junit = "5.7.1"
+jooq = "3.19.11"
+jooq-logback = "1.5.9"
 
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
@@ -7,10 +8,8 @@ spring-boot-starter-validation = { module = "org.springframework.boot:spring-boo
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 lombok = { module = "org.projectlombok:lombok" }
-h2 = { module = "com.h2database:h2" }
+logback-classic-for-jooq = { module = "ch.qos.logback:logback-classic", version.ref = "jooq-logback" }
+jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
+#h2 = { module = "com.h2database:h2" }
 mariadb-java-client = { module = "org.mariadb.jdbc:mariadb-java-client" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
-
-# Ex.
-junit-jupiter-api = { module = "org.junit.jupiter:junit-jupiter-api", version.ref = "junit" }
-junit-jupiter-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }

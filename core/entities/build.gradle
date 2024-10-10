@@ -1,7 +1,72 @@
+import nu.studer.gradle.jooq.JooqEdition
+
+apply plugin: 'nu.studer.jooq'
+
+def activeProfile = project.hasProperty('profile') ? project.getProperty('profile') : 'generate'
+println "Active profile: ${activeProfile}"
+
+def dbSchema = project.findProperty("dbSchema_${activeProfile}")
+def dbParameters = "?serverTimezone=UTC&characterEncoding=UTF-8"
+def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema + dbParameters
+def dbUser = project.findProperty("dbUser_${activeProfile}")
+def dbPassword = project.findProperty("dbPassword_${activeProfile}")
+def packageGroup = project.findProperty("packageGroup")
 dependencies {
     // common
     implementation project(':common-enums')
     implementation project(':common-utils')
 
+    // libs
     implementation libs.spring.boot.starter.data.jpa
+
+    // jooq
+    jooqGenerator libs.mariadb.java.client
+    jooqGenerator libs.logback.classic.for.jooq
+}
+
+jooq {
+    version = '3.19.11'
+    edition = JooqEdition.OSS
+
+    configurations {
+        main {
+            generateSchemaSourceOnCompilation = true
+            generationTool {
+                jdbc {
+                    driver = 'org.mariadb.jdbc.Driver'
+                    url = dbUrl
+                    user = dbUser
+                    password = dbPassword
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.mariadb.MariaDBDatabase'
+                        inputSchema = dbSchema
+                    }
+                    generate {
+                        deprecated = false // @Deprecated 주석 생성 안함
+                        records = true // 레코드 객체 생성
+                        immutablePojos = true // Immutable POJOs 생성
+                        fluentSetters = true // Fluent Setters 사용
+                    }
+                    target {
+                        packageName = packageGroup
+                        directory = 'build/generated-src/jooq/main' // 생성된 소스 디렉토리
+                    }
+                    strategy {
+                        name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('generateJooq').configure {
+    allInputsDeclared = true // Incremental build를 위한 설정
+}
+
+tasks.named('compileJava').configure {
+    dependsOn tasks.named('generateJooq') // 컴파일 전 jooq 소스 생성
 }

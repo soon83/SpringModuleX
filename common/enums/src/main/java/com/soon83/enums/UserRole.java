@@ -1,6 +1,6 @@
-package com.soon83;
+package com.soon83.enums;
 
-import com.soon83.mapper.EnumMapperType;
+import com.soon83.enums.mapper.EnumMapperType;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

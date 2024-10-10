@@ -1,5 +1,7 @@
 package com.soon83.member;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,5 +22,14 @@ public class MemberController {
 		log.debug("# searchUserInfo # userId: {}", userId);
 		MemberInfo memberInfo = memberFacade.searchMemberInfo(userId);
 		return new MemberInfoResponse(memberInfo);
+	}
+
+	@GetMapping("/all")
+	public List<MemberInfoResponse> searchAllMemberInfoList() {
+		log.debug("# searchMemberInfoList");
+		List<MemberInfo> memberInfoList = memberFacade.searchAllMemberInfoList();
+		return memberInfoList.stream()
+			.map(MemberInfoResponse::new)
+			.toList();
 	}
 }

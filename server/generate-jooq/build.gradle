@@ -1,0 +1,20 @@
+dependencies {
+    // core
+    implementation project(':core-entities')
+
+    // libs
+    implementation libs.spring.boot.starter.data.jpa
+    runtimeOnly libs.mariadb.java.client
+}
+
+task jooq(type: JavaExec) {
+    group = 'build'
+    description = 'Run Spring Boot to generate database schema'
+    main = 'com.soon83.GenerateJooq'
+    classpath = sourceSets.main.runtimeClasspath
+    systemProperties = [
+            'spring.profiles.active': 'generate'
+    ]
+}
+
+jooq.finalizedBy project(':core-entities').tasks.clean

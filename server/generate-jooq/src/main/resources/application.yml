@@ -1,0 +1,45 @@
+server:
+  shutdown: graceful
+
+application:
+  title: generate-jooq-server
+
+spring:
+  application:
+    name: ${application.title}
+  main:
+    web-application-type: none
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
+    username: spring_module_x_${spring.config.activate.on-profile}
+    password: spring_module_x_${spring.config.activate.on-profile}!@34
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: create
+
+file-path:
+  root: ${file-path.application-root}/${spring.application.name}
+
+logging:
+  file:
+    path: ${file-path.root}/logs
+    name: ${spring.config.activate.on-profile}
+  config: classpath:logback-${spring.config.activate.on-profile}.xml
+
+---
+# JOOQ
+server:
+  port: 10000
+datasource:
+  url: localhost:13306
+
+spring:
+  config:
+    activate:
+      on-profile: generate
+
+file-path:
+  application-root: /Users/ds/Downloads/springboot/${application.title}

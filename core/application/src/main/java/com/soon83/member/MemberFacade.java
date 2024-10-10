@@ -1,5 +1,7 @@
 package com.soon83.member;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -13,5 +15,9 @@ public class MemberFacade {
 
 	public MemberInfo searchMemberInfo(Long memberId) {
 		return memberService.getMemberInfo(memberId);
+	}
+
+	public List<MemberInfo> searchAllMemberInfoList() {
+		return memberService.getAllMemberInfoList();
 	}
 }

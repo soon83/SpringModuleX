@@ -6,5 +6,4 @@ dependencies {
     // core
     implementation project(':core-application')
     implementation project(':core-domain')
-
 }

@@ -6,7 +6,9 @@ dependencies {
     // core
     implementation project(':core-entities')
 
+    // libs
     implementation libs.spring.boot.starter.data.jpa
+    implementation libs.jooq
     runtimeOnly libs.mariadb.java.client
     // runtimeOnly libs.h2
 }

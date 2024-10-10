@@ -1,6 +1,6 @@
 package com.soon83.member;
 
-import com.soon83.UserRole;
+import com.soon83.enums.UserRole;
 
 import lombok.Getter;
 
