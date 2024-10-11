@@ -1,6 +1,9 @@
 server:
   shutdown: graceful
 
+application:
+  title: spring-module-x
+
 spring:
   application:
     name: main-server
@@ -36,7 +39,7 @@ logging:
   file:
     path: ${file-path.root}/logs
     name: ${spring.config.activate.on-profile}
-  config: classpath:logback-${spring.config.activate.on-profile}.xml
+  config: classpath:logback-spring.xml
 
 ---
 # LOCAL
@@ -51,7 +54,7 @@ spring:
       on-profile: local
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
+  application-root: /Users/ds/Downloads/springboot/${application.title}
 
 ---
 # TEST
@@ -66,7 +69,7 @@ spring:
       on-profile: test
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
+  application-root: /Users/ds/Downloads/springboot/${application.title}
 
 ---
 # STAGING
@@ -81,7 +84,7 @@ spring:
       on-profile: staging
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
+  application-root: /Users/ds/Downloads/springboot/${application.title}
 
 ---
 # PROD
@@ -96,4 +99,4 @@ spring:
       on-profile: prod
 
 file-path:
-  application-root: /Users/ds/Downloads/springboot/${spring.application.name}
+  application-root: /Users/ds/Downloads/springboot/${application.title}
