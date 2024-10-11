@@ -1,7 +1,5 @@
 # jooq
-
 ### generate jooq DB
-
 ```sql
 CREATE SCHEMA spring_module_x_generate;
 GRANT
@@ -17,7 +15,6 @@ REVOKE DELETE HISTORY ON `spring_module_x_generate`.* FROM 'spring_module_x_gene
 ```
 
 ### local test DB
-
 ```sql
 CREATE SCHEMA spring_module_x_local;
 GRANT
