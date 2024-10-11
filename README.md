@@ -1,3 +1,4 @@
+<!-- @formatter:off -->
 # jooq
 ### generate jooq DB
 ```sql
