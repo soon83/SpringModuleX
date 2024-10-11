@@ -12,9 +12,6 @@ task _init_JOOQ(type: JavaExec) {
     description = 'Run Spring Boot to generate database schema'
     main = 'com.soon83.GenerateJooq'
     classpath = sourceSets.main.runtimeClasspath
-    systemProperties = [
-            'spring.profiles.active': 'generate'
-    ]
 }
 
 _init_JOOQ.finalizedBy project(':core-entities').tasks.clean
