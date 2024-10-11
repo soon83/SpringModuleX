@@ -21,7 +21,7 @@ dependencies {
 
     // jooq
     jooqGenerator libs.mariadb.java.client
-    jooqGenerator libs.logback.classic.for.jooq
+    jooqGenerator libs.logback.classic
 }
 
 jooq {

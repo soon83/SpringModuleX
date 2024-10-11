@@ -1,6 +1,6 @@
 [versions]
 jooq = "3.19.11"
-jooq-logback = "1.5.9"
+logback = "1.5.9"
 mapstruct = "1.6.2"
 
 [libraries]
@@ -9,7 +9,7 @@ spring-boot-starter-validation = { module = "org.springframework.boot:spring-boo
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 lombok = { module = "org.projectlombok:lombok" }
-logback-classic-for-jooq = { module = "ch.qos.logback:logback-classic", version.ref = "jooq-logback" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
