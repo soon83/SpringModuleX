@@ -33,7 +33,7 @@ public class MemberController {
         log.debug("# searchPageMemberInfoList # request: {}, pageable: {}", request, pageable);
         MemberSearchCondition searchCondition = memberResponseMapper.toMemberSearchCondition(request);
         Page<MemberInfo> memberInfoPage = memberFacade.searchPageMemberInfoList(searchCondition, pageable);
-        ResponseHeaderUtil.setPageableToResponseHeader(response, objectMapper, memberInfoPage);
+        ResponseHeaderUtil.setPageableResponseHeader(response, objectMapper, memberInfoPage);
         return memberInfoPage.getContent().stream()
                 .map(memberResponseMapper::toMemberInfoResponse)
                 .toList();

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 
 public class ResponseHeaderUtil {
     @SneakyThrows
-    public static <T> void setPageableToResponseHeader(
+    public static <T> void setPageableResponseHeader(
             HttpServletResponse response,
             ObjectMapper objectMapper,
             Page<T> page
