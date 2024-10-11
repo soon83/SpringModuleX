@@ -13,6 +13,8 @@ public interface MemberResponseMapper {
 	 */
 	MemberInfoResponse toMemberInfoResponse(MemberInfo memberInfo);
 
+	MemberSearchCondition toMemberSearchCondition(MemberSearchRequest memberSearchRequest);
+
 	/**
 	 * Long 타입 처리 (예: customer.address.cityId 같은 경로에 대한 처리)
 	 * 즉, map 을 여러번 해야할 경우는 직접 메서드를 만들어서 사용하자

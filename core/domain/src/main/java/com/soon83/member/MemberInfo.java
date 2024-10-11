@@ -1,11 +1,12 @@
 package com.soon83.member;
 
 import com.soon83.enums.UserRole;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
 @AllArgsConstructor
 public class MemberInfo {
 	private final Long memberId;
