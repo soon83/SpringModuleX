@@ -1,10 +1,12 @@
 package com.soon83.member;
 
+import com.soon83.tables.records.MemberRecord;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepositoryJooq {
-	List<Member> getAllMemberList();
+	List<MemberRecord> getAllMemberRecordList();
 
-	Optional<Member> getMember(Long memberId);
+	Optional<MemberRecord> getMemberRecord(Long memberId);
 }

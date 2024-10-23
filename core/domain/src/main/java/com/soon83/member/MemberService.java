@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MemberService {
-	private final MemberMapper memberMapper;
+	private final MemberDomainMapper memberDomainMapper;
 	private final MemberReader memberReader;
 
 	public Page<MemberInfo> searchPageMemberInfoList(MemberSearchCondition searchCondition, Pageable pageable) {
@@ -24,12 +24,12 @@ public class MemberService {
 	public List<MemberInfo> getAllMemberInfoList(MemberSearchCondition searchCondition) {
 		List<Member> memberList = memberReader.getAllMemberList();
 		return memberList.stream()
-			.map(memberMapper::toMemberInfo)
+				.map(memberDomainMapper::toMemberInfo)
 			.toList();
 	}
 
 	public MemberInfo getMemberInfo(Long memberId) {
 		Member member = memberReader.getMemberOrThrow(memberId);
-		return memberMapper.toMemberInfo(member);
+		return memberDomainMapper.toMemberInfo(member);
 	}
 }
