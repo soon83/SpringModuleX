@@ -1,4 +1,4 @@
-package com.soon83.interfaces.member;
+package com.soon83.interfaces.memberdomain;
 
 import java.util.ArrayList;
 import java.util.HashMap;

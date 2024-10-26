@@ -1,6 +1,8 @@
 package com.soon83.interfaces.member;
 
 import com.soon83.dtos.enums.MemberRole;
+import com.soon83.interfaces.memberdomain.MemberRepository;
+import com.soon83.interfaces.memberdomain.RegisterMember;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

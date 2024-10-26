@@ -1,4 +1,4 @@
-package com.soon83.interfaces.member;
+package com.soon83.interfaces.memberdomain;
 
 import com.soon83.dtos.enums.MemberRole;
 
