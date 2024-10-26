@@ -13,7 +13,8 @@ def dbPassword = project.findProperty("dbPassword_${activeProfile}")
 def packageGroup = project.findProperty("packageGroup")
 dependencies {
     // common
-    implementation project(':common-enums')
+    implementation project(':common-dtos')
+    implementation project(':common-exceptions')
     implementation project(':common-utils')
 
     // libs
@@ -22,6 +23,12 @@ dependencies {
     // jooq
     jooqGenerator libs.mariadb.java.client
     jooqGenerator libs.logback.classic
+
+    // querydsl
+    implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
+    annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 }
 
 jooq {

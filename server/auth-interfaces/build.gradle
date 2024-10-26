@@ -1,6 +1,2 @@
 dependencies {
-    // common
-    implementation project(':common-enums')
-    implementation project(':common-utils')
-
 }

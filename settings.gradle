@@ -11,10 +11,8 @@ allModules.each {
     compDir.eachDir { subDir ->
         def gradleFile = new File(subDir.absolutePath, "build.gradle")
         if (!gradleFile.exists()) {
-            gradleFile.text =
-                    """
+            gradleFile.text = """
                     dependencies {
-                    
                     }
                     """.stripIndent(20)
         }

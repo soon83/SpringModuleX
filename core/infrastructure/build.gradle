@@ -1,6 +1,7 @@
 dependencies {
     // common
-    implementation project(':common-enums')
+    implementation project(':common-dtos')
+    implementation project(':common-exceptions')
     implementation project(':common-utils')
 
     // core
@@ -11,4 +12,8 @@ dependencies {
     implementation libs.jooq
     runtimeOnly libs.mariadb.java.client
     // runtimeOnly libs.h2
+    implementation libs.jakarta.xml.bind.api
+    implementation libs.jaxb.runtime
+
+    implementation "com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 }
