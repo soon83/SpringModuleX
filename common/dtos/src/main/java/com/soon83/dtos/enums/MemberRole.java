@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum UserRole implements EnumMapperType {
+public enum MemberRole implements EnumMapperType {
 	ADMIN("관리자"),
 	MANAGER("운영자"),
 	MEMBER("회원");

@@ -1,6 +1,6 @@
 package com.soon83.dtos.member;
 
-import com.soon83.dtos.enums.UserRole;
+import com.soon83.dtos.enums.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,5 +14,5 @@ public class MemberUpdateCommand {
 	private String password;
 	private String name;
 	private String email;
-	private UserRole role;
+	private MemberRole role;
 }

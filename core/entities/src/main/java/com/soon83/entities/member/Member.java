@@ -1,6 +1,6 @@
 package com.soon83.entities.member;
 
-import com.soon83.dtos.enums.UserRole;
+import com.soon83.dtos.enums.MemberRole;
 import com.soon83.entities.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -46,5 +46,5 @@ public class Member extends BaseEntity {
 	@Column(name = "role", nullable = false, length = 31)
 	@Enumerated(EnumType.STRING)
 	@Comment("역할")
-	private UserRole role;
+	private MemberRole role;
 }
