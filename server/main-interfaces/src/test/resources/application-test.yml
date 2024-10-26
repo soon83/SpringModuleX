@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: main-server
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
+    username: spring_module_x_${spring.config.activate.on-profile}
+    password: spring_module_x_${spring.config.activate.on-profile}!@34
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        one-indexed-parameters: true
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        show_sql: false
+        format_sql: false
+        highlight_sql: true
+        default_batch_fetch_size: 100
+
+---
+# LOCAL
+server:
+  port: 0
+datasource:
+  url: localhost:13306
+
+spring:
+  config:
+    activate:
+      on-profile: local

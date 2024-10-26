@@ -1,6 +1,7 @@
 package com.soon83.interfaces.memberdomain;
 
 import com.soon83.dtos.enums.MemberRole;
+import org.springframework.util.Assert;
 
 public class RegisterMember {
     private final MemberRepository memberRepository;
@@ -23,7 +24,7 @@ public class RegisterMember {
             MemberRole memberRole
     ) {
         public Request {
-            RegisterMemberTest.validateConstructor(
+            validateConstructor(
                     loginId,
                     password,
                     name,
@@ -40,6 +41,20 @@ public class RegisterMember {
                     email,
                     memberRole
             );
+        }
+
+        public void validateConstructor(
+                String loginId,
+                String password,
+                String name,
+                String email,
+                MemberRole memberRole
+        ) {
+            Assert.hasText(loginId, "로그인 아이디는 필수값 입니다.");
+            Assert.hasText(password, "비밀번호는 필수값 입니다.");
+            Assert.hasText(name, "이름은 필수값 입니다.");
+            Assert.hasText(email, "이메일은 필수값 입니다.");
+            Assert.notNull(memberRole, "권한은 필수값 입니다.");
         }
     }
 }

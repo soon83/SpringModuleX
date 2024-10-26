@@ -5,19 +5,25 @@ mapstruct = "1.6.2"
 jakarta-xml-bind-api = "4.0.2"
 jaxb-runtime = "4.0.5"
 
+# 테스트 의존성 라이브러리
+rest-assured = "5.5.0"
+
 [libraries]
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-aop = { module = "org.springframework.boot:spring-boot-starter-aop" }
-spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 lombok = { module = "org.projectlombok:lombok" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 mapstruct = { module = "org.mapstruct:mapstruct", version.ref = "mapstruct" }
 mapstruct-processor = { module = "org.mapstruct:mapstruct-processor", version.ref = "mapstruct" }
-#h2 = { module = "com.h2database:h2" }
+# h2 = { module = "com.h2database:h2" }
 mariadb-java-client = { module = "org.mariadb.jdbc:mariadb-java-client" }
 jakarta-xml-bind-api = { module = "jakarta.xml.bind:jakarta.xml.bind-api", version.ref = "jakarta-xml-bind-api" }
 jaxb-runtime = { module = "org.glassfish.jaxb:jaxb-runtime", version.ref = "jaxb-runtime" }
+
+# TEST 의존성 라이브러리
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }

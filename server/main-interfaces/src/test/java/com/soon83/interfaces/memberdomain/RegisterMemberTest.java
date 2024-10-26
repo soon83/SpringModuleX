@@ -1,35 +1,34 @@
-package com.soon83.interfaces.member;
+package com.soon83.interfaces.memberdomain;
 
 import com.soon83.dtos.enums.MemberRole;
-import com.soon83.interfaces.memberdomain.MemberRepository;
-import com.soon83.interfaces.memberdomain.RegisterMember;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("local")
+@TestPropertySource(locations = "classpath:application-test.yml")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RegisterMemberTest {
+    @LocalServerPort
+    private int port;
+
     private RegisterMember registerMember;
     private MemberRepository memberRepository;
 
-    public static void validateConstructor(
-            String loginId,
-            String password,
-            String name,
-            String email,
-            MemberRole memberRole
-    ) {
-        Assert.hasText(loginId, "로그인 아이디는 필수값 입니다.");
-        Assert.hasText(password, "비밀번호는 필수값 입니다.");
-        Assert.hasText(name, "이름은 필수값 입니다.");
-        Assert.hasText(email, "이메일은 필수값 입니다.");
-        Assert.notNull(memberRole, "권한은 필수값 입니다.");
-    }
-
     @BeforeEach
     void setUp() {
+        if (RestAssured.port == port) {
+            RestAssured.baseURI = "http://localhost";
+        }
         memberRepository = new MemberRepository();
         registerMember = new RegisterMember(memberRepository);
     }
@@ -52,7 +51,14 @@ class RegisterMemberTest {
         );
 
         // when
-        registerMember.request(request);
+//        registerMember.request(request);
+        RestAssured.given().log().all()
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/member-list")
+                .then().log().all()
+                .statusCode(HttpStatus.CREATED.value());
 
         // then
         assertThat(memberRepository.findAll()).hasSize(1);

@@ -54,6 +54,7 @@ subprojects {
         // test
         testImplementation libs.spring.boot.starter.test
         testRuntimeOnly libs.junit.platform.launcher
+        testImplementation libs.rest.assured
     }
 
     // task
