@@ -43,6 +43,7 @@ public class MemberRepositoryQuerydslImpl extends CustomQuerydslRepositorySuppor
                         like(member.loginId, searchCond.getLoginId()),
                         like(member.name, searchCond.getName())
                 )
+                .limit(sortable.getLimit())
                 .fetch();
     }
 
