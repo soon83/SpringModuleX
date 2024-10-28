@@ -2,9 +2,7 @@ package com.soon83.interfaces.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.soon83.application.member.MemberFacade;
-import com.soon83.dtos.member.MemberCreateCommand;
-import com.soon83.dtos.member.MemberInfo;
-import com.soon83.dtos.member.MemberSearchCondition;
+import com.soon83.dtos.member.*;
 import com.soon83.dtos.utils.Sortable;
 import com.soon83.interfaces.configs.ResponseHeaderUtil;
 import jakarta.servlet.http.HttpServletResponse;
@@ -74,10 +72,57 @@ public class MemberController {
      * 회원 단건 등록
      */
     @PostMapping
-    public MemberRegisterResponse registerMemberInfo(@RequestBody @Valid MemberRegisterRequest request) {
+    public MemberInfoResponse registerMemberInfo(@RequestBody @Valid MemberRegisterRequest request) {
         log.debug("# registerMemberInfo # request: {}", request);
         MemberCreateCommand command = memberMapper.toMemberCreateCommand(request);
-        Long registeredMemberId = memberFacade.registerMember(command);
-        return memberMapper.toMemberRegisterResponse(registeredMemberId);
+        MemberInfo registeredMember = memberFacade.registerMemberInfo(command);
+        return memberMapper.toMemberInfoResponse(registeredMember);
+    }
+
+    /**
+     * 회원 대량 등록
+     */
+    @PostMapping("/bulk")
+    public void registerBulkMemberInfo(@RequestBody @Valid MemberBulkRegisterRequest request) {
+        log.debug("# registerBulkMemberInfo # request: {}", request);
+        MemberBulkCreateCommand bulkCommand = memberMapper.toMemberBulkCreateCommand(request);
+        memberFacade.registerBulkMemberInfo(bulkCommand);
+    }
+
+    /**
+     * 회원 단건 수정
+     */
+    @PutMapping("/{memberId}")
+    public void editMemberInfo(@RequestBody @Valid MemberEditRequest request) {
+        log.debug("# editMemberInfo # request: {}", request);
+        MemberUpdateCommand command = memberMapper.toMemberUpdateCommand(request);
+        memberFacade.editMemberInfo(command);
+    }
+
+    /**
+     * 회원 대량 수정
+     */
+    @PutMapping("/bulk")
+    public void editBulkMemberInfo(@RequestBody @Valid MemberBulkEditRequest request) {
+        MemberBulkUpdateCommand bulkCommand = memberMapper.toMemberBulkUpdateCommand(request);
+        memberFacade.editBulkMemberInfo(bulkCommand);
+    }
+
+    /**
+     * 회원 단건 삭제
+     */
+    @DeleteMapping("/{memberId}")
+    public void removeMemberInfo(@RequestBody @Valid MemberRemoveRequest request) {
+        MemberDeleteCommand command = memberMapper.toMemberDeleteCommand(request);
+        memberFacade.removeMemberInfo(command);
+    }
+
+    /**
+     * 회원 대량 삭제
+     */
+    @DeleteMapping("/bulk")
+    public void removeBulkMemberInfo(@RequestBody @Valid MemberBulkRemoveRequest request) {
+        MemberBulkDeleteCommand bulkCommand = memberMapper.toMemberBulkDeleteCommand(request);
+        memberFacade.removeBulkMemberInfo(bulkCommand);
     }
 }

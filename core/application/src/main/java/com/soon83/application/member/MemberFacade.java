@@ -41,42 +41,42 @@ public class MemberFacade {
     /**
      * 회원 단건 등록
      */
-    public Long registerMember(MemberCreateCommand command) {
-        return memberService.createMember(command);
+    public MemberInfo registerMemberInfo(MemberCreateCommand command) {
+        return memberService.createMemberInfo(command);
     }
 
     /**
      * 회원 대량 등록
      */
-    public void registerBulkMember(MemberBulkCreateCommand bulkCommand) {
-        memberService.createBulkMember(bulkCommand);
+    public void registerBulkMemberInfo(MemberBulkCreateCommand bulkCommand) {
+        memberService.createBulkMemberInfo(bulkCommand);
     }
 
     /**
      * 회원 단건 수정
      */
-    public void editMember(MemberUpdateCommand command) {
-        memberService.updateMember(command);
+    public void editMemberInfo(MemberUpdateCommand command) {
+        memberService.updateMemberInfo(command);
     }
 
     /**
      * 회원 대량 수정
      */
-    public void editBulkMember(MemberBulkUpdateCommand bulkCommand) {
-        memberService.updateBulkMember(bulkCommand);
+    public void editBulkMemberInfo(MemberBulkUpdateCommand bulkCommand) {
+        memberService.updateBulkMemberInfo(bulkCommand);
     }
 
     /**
      * 회원 단건 삭제
      */
-    public void removeMember(MemberDeleteCommand command) {
-        memberService.deleteMember(command);
+    public void removeMemberInfo(MemberDeleteCommand command) {
+        memberService.deleteMemberInfo(command);
     }
 
     /**
      * 회원 대량 삭제
      */
-    public void removeBulkMember(MemberBulkDeleteCommand bulkCommand) {
-        memberService.deleteBulkMember(bulkCommand);
+    public void removeBulkMemberInfo(MemberBulkDeleteCommand bulkCommand) {
+        memberService.deleteBulkMemberInfo(bulkCommand);
     }
 }

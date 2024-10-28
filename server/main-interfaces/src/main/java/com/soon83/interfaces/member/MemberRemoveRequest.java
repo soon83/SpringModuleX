@@ -7,6 +7,6 @@ import lombok.ToString;
 @Getter
 @ToString
 @AllArgsConstructor
-public class MemberRegisterResponse {
-    private final Long memberId;
+public class MemberRemoveRequest {
+    private final String memberId;
 }

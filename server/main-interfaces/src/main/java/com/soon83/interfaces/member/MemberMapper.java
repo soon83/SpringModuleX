@@ -1,9 +1,9 @@
 package com.soon83.interfaces.member;
 
-import com.soon83.dtos.member.MemberCreateCommand;
-import com.soon83.dtos.member.MemberInfo;
-import com.soon83.dtos.member.MemberSearchCondition;
+import com.soon83.dtos.member.*;
+import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
@@ -14,13 +14,24 @@ public interface MemberMapper {
 	 *     @Mapping(source = "product.itemCode", target = "itemCodeId", qualifiedByName = "mapObjectToLong"), // 객체가 null 일 수도 있을 때 처리 방법
 	 * })
 	 */
-	MemberInfoResponse toMemberInfoResponse(MemberInfo memberInfo);
+	MemberSearchCondition toMemberSearchCondition(MemberSearchRequest request);
 
-	MemberSearchCondition toMemberSearchCondition(MemberSearchRequest memberSearchRequest);
+	MemberInfoResponse toMemberInfoResponse(MemberInfo info);
 
-	MemberCreateCommand toMemberCreateCommand(MemberRegisterRequest memberRegisterRequest);
+	MemberCreateCommand toMemberCreateCommand(MemberRegisterRequest request);
 
-	MemberRegisterResponse toMemberRegisterResponse(Long memberId);
+	MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
+
+	MemberDeleteCommand toMemberDeleteCommand(MemberRemoveRequest request);
+
+	@Mapping(source = "requestList", target = "commandList")
+	MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
+
+	@Mapping(source = "requestList", target = "commandList")
+	MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
+
+	@Mapping(source = "requestList", target = "commandList")
+	MemberBulkDeleteCommand toMemberBulkDeleteCommand(@Valid MemberBulkRemoveRequest request);
 
 	/**
 	 * Long 타입 처리 (예: customer.address.cityId 같은 경로에 대한 처리)

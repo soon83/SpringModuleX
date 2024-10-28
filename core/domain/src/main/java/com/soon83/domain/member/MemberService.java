@@ -52,25 +52,25 @@ public class MemberService {
      * 회원 단건 등록
      */
     @Transactional
-    public Long createMember(MemberCreateCommand command) {
+    public MemberInfo createMemberInfo(MemberCreateCommand command) {
         Member memberEntity = MemberFactory.createMember(command);
         Member createdMember = memberStore.create(memberEntity);
-        return createdMember.getMemberId();
+        return memberDomainMapper.toMemberInfo(createdMember);
     }
 
     /**
      * 회원 대량 등록
      */
     @Transactional
-    public void createBulkMember(MemberBulkCreateCommand bulkCommand) {
-        bulkCommand.getCommandList().forEach(this::createMember);
+    public void createBulkMemberInfo(MemberBulkCreateCommand bulkCommand) {
+        bulkCommand.getCommandList().forEach(this::createMemberInfo);
     }
 
     /**
      * 회원 단건 수정
      */
     @Transactional
-    public void updateMember(MemberUpdateCommand command) {
+    public void updateMemberInfo(MemberUpdateCommand command) {
         Member member = memberReader.getMemberOrThrow(command.getMemberId());
         Member memberEntity = MemberFactory.updateMember(member, command);
         memberStore.update(memberEntity);
@@ -80,15 +80,15 @@ public class MemberService {
      * 회원 대량 수정
      */
     @Transactional
-    public void updateBulkMember(MemberBulkUpdateCommand bulkCommand) {
-        bulkCommand.getCommandList().forEach(this::updateMember);
+    public void updateBulkMemberInfo(MemberBulkUpdateCommand bulkCommand) {
+        bulkCommand.getCommandList().forEach(this::updateMemberInfo);
     }
 
     /**
      * 회원 단건 삭제
      */
     @Transactional
-    public void deleteMember(MemberDeleteCommand command) {
+    public void deleteMemberInfo(MemberDeleteCommand command) {
         Member member = memberReader.getMemberOrThrow(command.getMemberId());
         memberStore.delete(member);
     }
@@ -97,7 +97,7 @@ public class MemberService {
      * 회원 대량 삭제
      */
     @Transactional
-    public void deleteBulkMember(MemberBulkDeleteCommand bulkCommand) {
-        bulkCommand.getCommandList().forEach(this::deleteMember);
+    public void deleteBulkMemberInfo(MemberBulkDeleteCommand bulkCommand) {
+        bulkCommand.getCommandList().forEach(this::deleteMemberInfo);
     }
 }
