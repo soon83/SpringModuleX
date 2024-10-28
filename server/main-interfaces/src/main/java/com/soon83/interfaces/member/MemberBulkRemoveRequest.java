@@ -12,5 +12,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberBulkRemoveRequest {
-    private List<MemberRemoveRequest> requestList;
+    private List<Long> memberIdList;
 }

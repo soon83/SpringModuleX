@@ -8,5 +8,5 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MemberRemoveRequest {
-    private final String memberId;
+    private final Long memberId;
 }

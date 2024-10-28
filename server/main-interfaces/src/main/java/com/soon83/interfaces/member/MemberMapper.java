@@ -23,7 +23,7 @@ public interface MemberMapper {
 
 	MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
 
-	MemberDeleteCommand toMemberDeleteCommand(Long memberId);
+	MemberDeleteCommand toMemberDeleteCommand(MemberRemoveRequest request);
 
 	@Mapping(source = "requestList", target = "commandList")
 	MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
@@ -32,10 +32,10 @@ public interface MemberMapper {
 	MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
 
 	default MemberBulkDeleteCommand toMemberBulkDeleteCommand(List<Long> memberIdList) {
-		List<MemberDeleteCommand> memberDeleteCommandList = memberIdList.stream()
-				.map(this::toMemberDeleteCommand)
+		List<MemberDeleteCommand> commandList = memberIdList.stream()
+				.map(MemberDeleteCommand::new)
 				.toList();
-		return new MemberBulkDeleteCommand(memberDeleteCommandList);
+		return new MemberBulkDeleteCommand(commandList);
 	}
 
 	/**

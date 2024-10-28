@@ -108,6 +108,7 @@ public class MemberController {
      */
     @PutMapping("/bulk")
     public List<MemberInfoResponse> editBulkMemberInfo(@RequestBody @Valid MemberBulkEditRequest request) {
+        log.debug("# editBulkMemberInfo # request: {}", request);
         MemberBulkUpdateCommand bulkCommand = memberMapper.toMemberBulkUpdateCommand(request);
         List<MemberInfo> memberInfoList = memberFacade.editBulkMemberInfo(bulkCommand);
         return memberInfoList.stream()
@@ -119,8 +120,9 @@ public class MemberController {
      * 회원 단건 삭제
      */
     @DeleteMapping("/{memberId}")
-    public void removeMemberInfo(@PathVariable Long memberId) {
-        MemberDeleteCommand command = memberMapper.toMemberDeleteCommand(memberId);
+    public void removeMemberInfo(@ModelAttribute @Valid MemberRemoveRequest request) {
+        log.debug("# removeMemberInfo # request: {}", request);
+        MemberDeleteCommand command = memberMapper.toMemberDeleteCommand(request);
         memberFacade.removeMemberInfo(command);
     }
 
@@ -129,6 +131,7 @@ public class MemberController {
      */
     @DeleteMapping("/bulk")
     public void removeBulkMemberInfo(@RequestParam List<Long> memberIdList) {
+        log.debug("# removeBulkMemberInfo # memberIdList: {}", memberIdList);
         MemberBulkDeleteCommand bulkCommand = memberMapper.toMemberBulkDeleteCommand(memberIdList);
         memberFacade.removeBulkMemberInfo(bulkCommand);
     }
