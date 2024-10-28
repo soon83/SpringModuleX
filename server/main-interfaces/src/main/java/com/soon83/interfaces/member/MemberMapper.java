@@ -1,6 +1,7 @@
 package com.soon83.interfaces.member;
 
 import com.soon83.dtos.member.*;
+import com.soon83.utils.AssertUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -32,6 +33,7 @@ public interface MemberMapper {
 	MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
 
 	default MemberBulkDeleteCommand toMemberBulkDeleteCommand(List<Long> memberIdList) {
+		AssertUtil.isTrue(!memberIdList.isEmpty(), "회원 아이디 목록은 최소 1개 이상 입력해 주세요.");
 		List<MemberDeleteCommand> commandList = memberIdList.stream()
 				.map(MemberDeleteCommand::new)
 				.toList();

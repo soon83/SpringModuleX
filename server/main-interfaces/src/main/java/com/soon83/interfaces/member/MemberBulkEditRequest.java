@@ -1,5 +1,8 @@
 package com.soon83.interfaces.member;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberBulkEditRequest {
-    private List<MemberEditRequest> requestList;
+    @NotNull(message = "회원 수정요청목록은 필수값 입니다.")
+    @Size(min = 1, message = "회원 수정요청목록은 최소 1개 이상 입력해 주세요.")
+    private List<@Valid MemberEditRequest> requestList;
 }
