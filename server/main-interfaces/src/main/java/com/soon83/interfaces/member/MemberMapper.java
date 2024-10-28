@@ -1,9 +1,10 @@
 package com.soon83.interfaces.member;
 
 import com.soon83.dtos.member.*;
-import jakarta.validation.Valid;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MemberMapper {
@@ -22,7 +23,7 @@ public interface MemberMapper {
 
 	MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
 
-	MemberDeleteCommand toMemberDeleteCommand(MemberRemoveRequest request);
+	MemberDeleteCommand toMemberDeleteCommand(Long memberId);
 
 	@Mapping(source = "requestList", target = "commandList")
 	MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
@@ -30,8 +31,12 @@ public interface MemberMapper {
 	@Mapping(source = "requestList", target = "commandList")
 	MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
 
-	@Mapping(source = "requestList", target = "commandList")
-	MemberBulkDeleteCommand toMemberBulkDeleteCommand(@Valid MemberBulkRemoveRequest request);
+	default MemberBulkDeleteCommand toMemberBulkDeleteCommand(List<Long> memberIdList) {
+		List<MemberDeleteCommand> memberDeleteCommandList = memberIdList.stream()
+				.map(this::toMemberDeleteCommand)
+				.toList();
+		return new MemberBulkDeleteCommand(memberDeleteCommandList);
+	}
 
 	/**
 	 * Long 타입 처리 (예: customer.address.cityId 같은 경로에 대한 처리)

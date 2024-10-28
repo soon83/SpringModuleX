@@ -93,11 +93,14 @@ public class Sortable implements Pageable {
     }
 
     public Integer getLimit() {
+        if (limit == null || limit == 0) {
+            return Integer.MAX_VALUE;
+        }
         return limit;
     }
 
     public int getOffsetInt() {
-        return (getPageNumber() - 1) * getPageSize();
+        return Math.max(0, (getPageNumber() - 1) * getPageSize());
     }
 
     public String getType() {

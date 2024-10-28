@@ -11,12 +11,7 @@ public class MemberFactory extends BaseEntity {
      * 회원 생성
      */
     public static Member createMember(MemberCreateCommand command) {
-        AssertUtil.notNull(command.getLoginId(), "command.getLoginId()");
-        AssertUtil.notNull(command.getPassword(), "command.getPassword()");
-        AssertUtil.notNull(command.getName(), "command.getName()");
-        AssertUtil.notNull(command.getEmail(), "command.getEmail()");
-        AssertUtil.notNull(command.getRole(), "command.getRole()");
-
+        validateCreateMember(command);
         return Member.builder()
                 .loginId(command.getLoginId())
                 .password(command.getPassword())
@@ -29,20 +24,30 @@ public class MemberFactory extends BaseEntity {
     /**
      * 회원 수정
      */
-    public static Member updateMember(Member member, MemberUpdateCommand command) {
-        AssertUtil.notNull(member, "member");
-        AssertUtil.notNull(command.getLoginId(), "command.getLoginId()");
-        AssertUtil.notNull(command.getPassword(), "command.getPassword()");
-        AssertUtil.notNull(command.getName(), "command.getName()");
-        AssertUtil.notNull(command.getEmail(), "command.getEmail()");
-        AssertUtil.notNull(command.getRole(), "command.getRole()");
+    public static void updateMember(Member member, MemberUpdateCommand command) {
+        validateUpdateMember(command);
+        member.update(
+                command.getLoginId(),
+                command.getPassword(),
+                command.getName(),
+                command.getEmail(),
+                command.getRole()
+        );
+    }
 
-        return member.toBuilder()
-                .loginId(command.getLoginId())
-                .password(command.getPassword())
-                .name(command.getName())
-                .email(command.getEmail())
-                .role(command.getRole())
-                .build();
+    private static void validateCreateMember(MemberCreateCommand command) {
+        AssertUtil.notNull(command.getLoginId(), "loginId");
+        AssertUtil.notNull(command.getPassword(), "password");
+        AssertUtil.notNull(command.getName(), "name");
+        AssertUtil.notNull(command.getEmail(), "email");
+        AssertUtil.notNull(command.getRole(), "role");
+    }
+
+    private static void validateUpdateMember(MemberUpdateCommand command) {
+        AssertUtil.notNull(command.getLoginId(), "loginId");
+        AssertUtil.notNull(command.getPassword(), "password");
+        AssertUtil.notNull(command.getName(), "name");
+        AssertUtil.notNull(command.getEmail(), "email");
+        AssertUtil.notNull(command.getRole(), "role");
     }
 }

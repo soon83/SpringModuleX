@@ -48,22 +48,22 @@ public class MemberFacade {
     /**
      * 회원 대량 등록
      */
-    public void registerBulkMemberInfo(MemberBulkCreateCommand bulkCommand) {
-        memberService.createBulkMemberInfo(bulkCommand);
+    public List<MemberInfo> registerBulkMemberInfo(MemberBulkCreateCommand bulkCommand) {
+        return memberService.createBulkMemberInfo(bulkCommand);
     }
 
     /**
      * 회원 단건 수정
      */
-    public void editMemberInfo(MemberUpdateCommand command) {
-        memberService.updateMemberInfo(command);
+    public MemberInfo editMemberInfo(MemberUpdateCommand command) {
+        return memberService.updateMemberInfo(command);
     }
 
     /**
      * 회원 대량 수정
      */
-    public void editBulkMemberInfo(MemberBulkUpdateCommand bulkCommand) {
-        memberService.updateBulkMemberInfo(bulkCommand);
+    public List<MemberInfo> editBulkMemberInfo(MemberBulkUpdateCommand bulkCommand) {
+        return memberService.updateBulkMemberInfo(bulkCommand);
     }
 
     /**

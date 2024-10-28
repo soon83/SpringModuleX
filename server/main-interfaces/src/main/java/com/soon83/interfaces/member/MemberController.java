@@ -75,45 +75,52 @@ public class MemberController {
     public MemberInfoResponse registerMemberInfo(@RequestBody @Valid MemberRegisterRequest request) {
         log.debug("# registerMemberInfo # request: {}", request);
         MemberCreateCommand command = memberMapper.toMemberCreateCommand(request);
-        MemberInfo registeredMember = memberFacade.registerMemberInfo(command);
-        return memberMapper.toMemberInfoResponse(registeredMember);
+        MemberInfo memberInfo = memberFacade.registerMemberInfo(command);
+        return memberMapper.toMemberInfoResponse(memberInfo);
     }
 
     /**
      * 회원 대량 등록
      */
     @PostMapping("/bulk")
-    public void registerBulkMemberInfo(@RequestBody @Valid MemberBulkRegisterRequest request) {
+    public List<MemberInfoResponse> registerBulkMemberInfo(@RequestBody @Valid MemberBulkRegisterRequest request) {
         log.debug("# registerBulkMemberInfo # request: {}", request);
         MemberBulkCreateCommand bulkCommand = memberMapper.toMemberBulkCreateCommand(request);
-        memberFacade.registerBulkMemberInfo(bulkCommand);
+        List<MemberInfo> memberInfoList = memberFacade.registerBulkMemberInfo(bulkCommand);
+        return memberInfoList.stream()
+                .map(memberMapper::toMemberInfoResponse)
+                .toList();
     }
 
     /**
      * 회원 단건 수정
      */
     @PutMapping("/{memberId}")
-    public void editMemberInfo(@RequestBody @Valid MemberEditRequest request) {
+    public MemberInfoResponse editMemberInfo(@RequestBody @Valid MemberEditRequest request) {
         log.debug("# editMemberInfo # request: {}", request);
         MemberUpdateCommand command = memberMapper.toMemberUpdateCommand(request);
-        memberFacade.editMemberInfo(command);
+        MemberInfo memberInfo = memberFacade.editMemberInfo(command);
+        return memberMapper.toMemberInfoResponse(memberInfo);
     }
 
     /**
      * 회원 대량 수정
      */
     @PutMapping("/bulk")
-    public void editBulkMemberInfo(@RequestBody @Valid MemberBulkEditRequest request) {
+    public List<MemberInfoResponse> editBulkMemberInfo(@RequestBody @Valid MemberBulkEditRequest request) {
         MemberBulkUpdateCommand bulkCommand = memberMapper.toMemberBulkUpdateCommand(request);
-        memberFacade.editBulkMemberInfo(bulkCommand);
+        List<MemberInfo> memberInfoList = memberFacade.editBulkMemberInfo(bulkCommand);
+        return memberInfoList.stream()
+                .map(memberMapper::toMemberInfoResponse)
+                .toList();
     }
 
     /**
      * 회원 단건 삭제
      */
     @DeleteMapping("/{memberId}")
-    public void removeMemberInfo(@RequestBody @Valid MemberRemoveRequest request) {
-        MemberDeleteCommand command = memberMapper.toMemberDeleteCommand(request);
+    public void removeMemberInfo(@PathVariable Long memberId) {
+        MemberDeleteCommand command = memberMapper.toMemberDeleteCommand(memberId);
         memberFacade.removeMemberInfo(command);
     }
 
@@ -121,8 +128,8 @@ public class MemberController {
      * 회원 대량 삭제
      */
     @DeleteMapping("/bulk")
-    public void removeBulkMemberInfo(@RequestBody @Valid MemberBulkRemoveRequest request) {
-        MemberBulkDeleteCommand bulkCommand = memberMapper.toMemberBulkDeleteCommand(request);
+    public void removeBulkMemberInfo(@RequestParam List<Long> memberIdList) {
+        MemberBulkDeleteCommand bulkCommand = memberMapper.toMemberBulkDeleteCommand(memberIdList);
         memberFacade.removeBulkMemberInfo(bulkCommand);
     }
 }

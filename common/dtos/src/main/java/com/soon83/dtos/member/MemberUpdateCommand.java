@@ -9,10 +9,10 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MemberUpdateCommand {
-	private Long memberId;
-	private String loginId;
-	private String password;
-	private String name;
-	private String email;
-	private MemberRole role;
+    private final Long memberId;
+    private final String loginId;
+    private final String password;
+    private final String name;
+    private final String email;
+    private final MemberRole role;
 }

@@ -15,11 +15,9 @@ public class MemberStore {
         return memberRepository.save(member);
     }
 
-    public void update(Member member) {
-        memberRepository.save(member);
-    }
-
     public void delete(Member member) {
-        memberRepository.delete(member);
+        if (member != null) {
+            memberRepository.delete(member);
+        }
     }
 }

@@ -62,26 +62,30 @@ public class MemberService {
      * 회원 대량 등록
      */
     @Transactional
-    public void createBulkMemberInfo(MemberBulkCreateCommand bulkCommand) {
-        bulkCommand.getCommandList().forEach(this::createMemberInfo);
+    public List<MemberInfo> createBulkMemberInfo(MemberBulkCreateCommand bulkCommand) {
+        return bulkCommand.getCommandList().stream()
+                .map(this::createMemberInfo)
+                .toList();
     }
 
     /**
      * 회원 단건 수정
      */
     @Transactional
-    public void updateMemberInfo(MemberUpdateCommand command) {
+    public MemberInfo updateMemberInfo(MemberUpdateCommand command) {
         Member member = memberReader.getMemberOrThrow(command.getMemberId());
-        Member memberEntity = MemberFactory.updateMember(member, command);
-        memberStore.update(memberEntity);
+        MemberFactory.updateMember(member, command);
+        return memberDomainMapper.toMemberInfo(member);
     }
 
     /**
      * 회원 대량 수정
      */
     @Transactional
-    public void updateBulkMemberInfo(MemberBulkUpdateCommand bulkCommand) {
-        bulkCommand.getCommandList().forEach(this::updateMemberInfo);
+    public List<MemberInfo> updateBulkMemberInfo(MemberBulkUpdateCommand bulkCommand) {
+        return bulkCommand.getCommandList().stream()
+                .map(this::updateMemberInfo)
+                .toList();
     }
 
     /**
@@ -89,7 +93,7 @@ public class MemberService {
      */
     @Transactional
     public void deleteMemberInfo(MemberDeleteCommand command) {
-        Member member = memberReader.getMemberOrThrow(command.getMemberId());
+        Member member = memberReader.getMemberOrNull(command.getMemberId());
         memberStore.delete(member);
     }
 

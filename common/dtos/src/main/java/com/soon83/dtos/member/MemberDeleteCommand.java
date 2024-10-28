@@ -8,5 +8,5 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MemberDeleteCommand {
-    private Long memberId;
+    private final Long memberId;
 }

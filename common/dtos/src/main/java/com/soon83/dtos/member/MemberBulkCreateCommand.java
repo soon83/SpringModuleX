@@ -10,5 +10,5 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 public class MemberBulkCreateCommand {
-    private List<MemberCreateCommand> commandList;
+    private final List<MemberCreateCommand> commandList;
 }

@@ -14,7 +14,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @TestPropertySource(locations = "classpath:application-test.yml")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RegisterMemberTest {
@@ -26,9 +26,9 @@ class RegisterMemberTest {
 
     @BeforeEach
     void setUp() {
-        if (RestAssured.port == port) {
-            RestAssured.baseURI = "http://localhost";
-        }
+        RestAssured.baseURI = "http://localhost";
+        RestAssured.port = port;
+
         memberRepository = new MemberRepository();
         registerMember = new RegisterMember(memberRepository);
     }
@@ -41,13 +41,13 @@ class RegisterMemberTest {
         String password = "password";
         String name = "name";
         String email = "email";
-        MemberRole memberRole = MemberRole.MEMBER;
+        MemberRole role = MemberRole.MEMBER;
         RegisterMember.Request request = new RegisterMember.Request(
                 loginId,
                 password,
                 name,
                 email,
-                memberRole
+                role
         );
 
         // when
