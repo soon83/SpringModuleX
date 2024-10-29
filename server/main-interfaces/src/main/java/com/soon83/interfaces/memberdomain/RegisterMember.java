@@ -1,60 +1,50 @@
 package com.soon83.interfaces.memberdomain;
 
 import com.soon83.dtos.enums.MemberRole;
-import org.springframework.util.Assert;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class RegisterMember {
-    private final MemberRepository memberRepository;
+    private final MemberDomainRepository memberDomainRepository;
 
-    public RegisterMember(final MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public RegisterMember(final MemberDomainRepository memberDomainRepository) {
+        this.memberDomainRepository = memberDomainRepository;
     }
 
-    public void request(final Request request) {
-        // request 에서 필요한 값을 꺼내서 회원 도메인을 생성하고 저장한다.
+    @PostMapping("/member-list")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void request(@RequestBody @Valid Request request) {
         MemberDomain member = request.toDomain();
-        memberRepository.save(member);
+        memberDomainRepository.save(member);
     }
 
     public record Request(
+            @NotBlank(message = "로그인 아이디는 필수값 입니다.")
             String loginId,
+            @NotBlank(message = "비밀번호는 필수값 입니다.")
             String password,
+            @NotBlank(message = "이름은 필수값 입니다.")
             String name,
+            @NotBlank(message = "이메일은 필수값 입니다.")
             String email,
-            MemberRole memberRole
+            @NotNull(message = "회원유형은 필수값 입니다.")
+            MemberRole role
     ) {
-        public Request {
-            validateConstructor(
-                    loginId,
-                    password,
-                    name,
-                    email,
-                    memberRole
-            );
-        }
-
         public MemberDomain toDomain() {
             return new MemberDomain(
                     loginId,
                     password,
                     name,
                     email,
-                    memberRole
+                    role
             );
-        }
-
-        public void validateConstructor(
-                String loginId,
-                String password,
-                String name,
-                String email,
-                MemberRole memberRole
-        ) {
-            Assert.hasText(loginId, "로그인 아이디는 필수값 입니다.");
-            Assert.hasText(password, "비밀번호는 필수값 입니다.");
-            Assert.hasText(name, "이름은 필수값 입니다.");
-            Assert.hasText(email, "이메일은 필수값 입니다.");
-            Assert.notNull(memberRole, "권한은 필수값 입니다.");
         }
     }
 }

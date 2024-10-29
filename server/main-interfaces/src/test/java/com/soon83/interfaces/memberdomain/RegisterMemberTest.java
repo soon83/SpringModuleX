@@ -6,6 +6,7 @@ import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
@@ -21,28 +22,26 @@ class RegisterMemberTest {
     @LocalServerPort
     private int port;
 
-    private RegisterMember registerMember;
-    private MemberRepository memberRepository;
+    @Autowired
+    private MemberDomainRepository memberDomainRepository;
 
     @BeforeEach
     void setUp() {
-        RestAssured.baseURI = "http://localhost";
-        RestAssured.port = port;
-
-        memberRepository = new MemberRepository();
-        registerMember = new RegisterMember(memberRepository);
+        if (RestAssured.UNDEFINED_PORT == RestAssured.port) {
+            RestAssured.port = port;
+        }
     }
 
     @Test
     @DisplayName("회원을 등록한다")
     void registerMember() {
         // given
-        String loginId = "loginId";
-        String password = "password";
-        String name = "name";
-        String email = "email";
-        MemberRole role = MemberRole.MEMBER;
-        RegisterMember.Request request = new RegisterMember.Request(
+        final String loginId = "loginId";
+        final String password = "password";
+        final String name = "name";
+        final String email = "email";
+        final MemberRole role = MemberRole.MEMBER;
+        final RegisterMember.Request request = new RegisterMember.Request(
                 loginId,
                 password,
                 name,
@@ -51,16 +50,15 @@ class RegisterMemberTest {
         );
 
         // when
-//        registerMember.request(request);
         RestAssured.given().log().all()
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/api/member-list")
+                .post("/member-list")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
 
         // then
-        assertThat(memberRepository.findAll()).hasSize(1);
+        assertThat(memberDomainRepository.findAll()).hasSize(1);
     }
 }

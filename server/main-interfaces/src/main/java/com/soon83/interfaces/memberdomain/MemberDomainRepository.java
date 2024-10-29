@@ -1,11 +1,14 @@
 package com.soon83.interfaces.memberdomain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MemberRepository {
+@Component
+public class MemberDomainRepository {
     private final Map<Long, MemberDomain> memberDomains = new HashMap<>();
     private Long nextId = 1L;
 

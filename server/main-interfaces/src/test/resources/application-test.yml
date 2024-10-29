@@ -9,13 +9,13 @@ spring:
   data:
     web:
       pageable:
-        default-page-size: 10
+        default-page-size: 20
         one-indexed-parameters: true
   jpa:
     open-in-view: false
     database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: false
