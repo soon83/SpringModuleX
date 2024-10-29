@@ -1,14 +1,11 @@
 package com.soon83.interfaces.member;
 
 import com.soon83.dtos.member.*;
-import com.soon83.utils.AssertUtil;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring")
-public interface MemberMapper {
+public interface MemberInterfaceMapper {
 	/**
 	 * source 와 target 간 변수명이 다르다면, 아래처럼 맵핑 하십쇼
 	 * @Mappings({
@@ -32,13 +29,8 @@ public interface MemberMapper {
 	@Mapping(source = "requestList", target = "commandList")
 	MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
 
-	default MemberBulkDeleteCommand toMemberBulkDeleteCommand(List<Long> memberIdList) {
-		AssertUtil.isTrue(!memberIdList.isEmpty(), "회원 아이디 목록은 최소 1개 이상 입력해 주세요.");
-		List<MemberDeleteCommand> commandList = memberIdList.stream()
-				.map(MemberDeleteCommand::new)
-				.toList();
-		return new MemberBulkDeleteCommand(commandList);
-	}
+	@Mapping(source = "requestList", target = "commandList")
+	MemberBulkDeleteCommand toMemberBulkDeleteCommand(MemberBulkRemoveRequest request);
 
 	/**
 	 * Long 타입 처리 (예: customer.address.cityId 같은 경로에 대한 처리)

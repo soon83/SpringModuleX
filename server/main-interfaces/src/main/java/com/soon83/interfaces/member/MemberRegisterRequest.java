@@ -5,24 +5,26 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 public class MemberRegisterRequest {
     @NotBlank(message = "회원 로그인 아이디는 필수값 입니다.")
-    private final String loginId;
+    private String loginId;
 
     @NotBlank(message = "회원 비밀번호는 필수값 입니다.")
-    private final String password;
+    private String password;
 
     @NotBlank(message = "회원 이름은 필수값 입니다.")
-    private final String name;
+    private String name;
 
     @NotBlank(message = "회원 이메일은 필수값 입니다.")
-    private final String email;
+    private String email;
 
     @NotNull(message = "회원 유형은 필수값 입니다.")
-    private final MemberRole role;
+    private MemberRole role;
 }

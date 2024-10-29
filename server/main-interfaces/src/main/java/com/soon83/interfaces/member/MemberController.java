@@ -22,7 +22,7 @@ import java.util.List;
 public class MemberController {
     private final ObjectMapper objectMapper;
     private final MemberFacade memberFacade;
-    private final MemberMapper memberMapper;
+    private final MemberInterfaceMapper memberInterfaceMapper;
 
     /**
      * 회원 목록 조회 - 페이징
@@ -34,11 +34,11 @@ public class MemberController {
             HttpServletResponse response
     ) {
         log.debug("# searchPageMemberInfoList # request: {}, pageable: {}", request, pageable);
-        MemberSearchCondition searchCondition = memberMapper.toMemberSearchCondition(request);
+        MemberSearchCondition searchCondition = memberInterfaceMapper.toMemberSearchCondition(request);
         Page<MemberInfo> pageMemberInfoList = memberFacade.searchPageMemberInfoList(searchCondition, pageable);
         ResponseHeaderUtil.setPageableResponseHeader(response, objectMapper, pageMemberInfoList);
         return pageMemberInfoList.getContent().stream()
-                .map(memberMapper::toMemberInfoResponse)
+                .map(memberInterfaceMapper::toMemberInfoResponse)
                 .toList();
     }
 
@@ -51,10 +51,10 @@ public class MemberController {
             Sortable sortable
     ) {
         log.debug("# searchAllMemberInfoList # request: {}, # sortable: {}", request, sortable);
-        MemberSearchCondition searchCondition = memberMapper.toMemberSearchCondition(request);
+        MemberSearchCondition searchCondition = memberInterfaceMapper.toMemberSearchCondition(request);
         List<MemberInfo> allMemberInfoList = memberFacade.searchAllMemberInfoList(searchCondition, sortable);
         return allMemberInfoList.stream()
-                .map(memberMapper::toMemberInfoResponse)
+                .map(memberInterfaceMapper::toMemberInfoResponse)
                 .toList();
     }
 
@@ -65,7 +65,7 @@ public class MemberController {
     public MemberInfoResponse searchMemberInfo(@PathVariable Long userId) {
         log.debug("# searchUserInfo # userId: {}", userId);
         MemberInfo memberInfo = memberFacade.searchMemberInfo(userId);
-        return memberMapper.toMemberInfoResponse(memberInfo);
+        return memberInterfaceMapper.toMemberInfoResponse(memberInfo);
     }
 
     /**
@@ -74,9 +74,9 @@ public class MemberController {
     @PostMapping
     public MemberInfoResponse registerMemberInfo(@RequestBody @Valid MemberRegisterRequest request) {
         log.debug("# registerMemberInfo # request: {}", request);
-        MemberCreateCommand command = memberMapper.toMemberCreateCommand(request);
+        MemberCreateCommand command = memberInterfaceMapper.toMemberCreateCommand(request);
         MemberInfo memberInfo = memberFacade.registerMemberInfo(command);
-        return memberMapper.toMemberInfoResponse(memberInfo);
+        return memberInterfaceMapper.toMemberInfoResponse(memberInfo);
     }
 
     /**
@@ -85,10 +85,10 @@ public class MemberController {
     @PostMapping("/bulk")
     public List<MemberInfoResponse> registerBulkMemberInfo(@RequestBody @Valid MemberBulkRegisterRequest request) {
         log.debug("# registerBulkMemberInfo # request: {}", request);
-        MemberBulkCreateCommand bulkCommand = memberMapper.toMemberBulkCreateCommand(request);
+        MemberBulkCreateCommand bulkCommand = memberInterfaceMapper.toMemberBulkCreateCommand(request);
         List<MemberInfo> memberInfoList = memberFacade.registerBulkMemberInfo(bulkCommand);
         return memberInfoList.stream()
-                .map(memberMapper::toMemberInfoResponse)
+                .map(memberInterfaceMapper::toMemberInfoResponse)
                 .toList();
     }
 
@@ -98,9 +98,9 @@ public class MemberController {
     @PutMapping("/{memberId}")
     public MemberInfoResponse editMemberInfo(@RequestBody @Valid MemberEditRequest request) {
         log.debug("# editMemberInfo # request: {}", request);
-        MemberUpdateCommand command = memberMapper.toMemberUpdateCommand(request);
+        MemberUpdateCommand command = memberInterfaceMapper.toMemberUpdateCommand(request);
         MemberInfo memberInfo = memberFacade.editMemberInfo(command);
-        return memberMapper.toMemberInfoResponse(memberInfo);
+        return memberInterfaceMapper.toMemberInfoResponse(memberInfo);
     }
 
     /**
@@ -109,10 +109,10 @@ public class MemberController {
     @PutMapping("/bulk")
     public List<MemberInfoResponse> editBulkMemberInfo(@RequestBody @Valid MemberBulkEditRequest request) {
         log.debug("# editBulkMemberInfo # request: {}", request);
-        MemberBulkUpdateCommand bulkCommand = memberMapper.toMemberBulkUpdateCommand(request);
+        MemberBulkUpdateCommand bulkCommand = memberInterfaceMapper.toMemberBulkUpdateCommand(request);
         List<MemberInfo> memberInfoList = memberFacade.editBulkMemberInfo(bulkCommand);
         return memberInfoList.stream()
-                .map(memberMapper::toMemberInfoResponse)
+                .map(memberInterfaceMapper::toMemberInfoResponse)
                 .toList();
     }
 
@@ -122,17 +122,17 @@ public class MemberController {
     @DeleteMapping("/{memberId}")
     public void removeMemberInfo(@ModelAttribute @Valid MemberRemoveRequest request) {
         log.debug("# removeMemberInfo # request: {}", request);
-        MemberDeleteCommand command = memberMapper.toMemberDeleteCommand(request);
+        MemberDeleteCommand command = memberInterfaceMapper.toMemberDeleteCommand(request);
         memberFacade.removeMemberInfo(command);
     }
 
     /**
      * 회원 대량 삭제
      */
-    @DeleteMapping("/bulk")
-    public void removeBulkMemberInfo(@RequestParam List<Long> memberIdList) {
-        log.debug("# removeBulkMemberInfo # memberIdList: {}", memberIdList);
-        MemberBulkDeleteCommand bulkCommand = memberMapper.toMemberBulkDeleteCommand(memberIdList);
+    @PostMapping("/bulk-remove")
+    public void removeBulkMemberInfo(@RequestBody @Valid MemberBulkRemoveRequest request) {
+        log.debug("# removeBulkMemberInfo # request: {}", request);
+        MemberBulkDeleteCommand bulkCommand = memberInterfaceMapper.toMemberBulkDeleteCommand(request);
         memberFacade.removeBulkMemberInfo(bulkCommand);
     }
 }
