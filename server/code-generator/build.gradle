@@ -1,0 +1,34 @@
+dependencies {
+    // core
+    implementation project(':core-entities')
+
+    // libs
+    implementation libs.spring.boot.starter.data.jpa
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-mustache'
+    implementation 'io.spring.initializr:initializr-generator:0.21.0'
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.11'
+    implementation 'org.reflections:reflections:0.10.2'
+}
+
+tasks.register('cleanGenerated') {
+    group = "build"
+
+    doLast {
+        delete 'build/generated'
+        println("Cleaned build/generated directory.")
+    }
+}
+
+tasks.register('_GENERATE_CODE', JavaExec) {
+    group = "build"
+    mainClass = 'com.soon83.CodeGenerator'
+    classpath = sourceSets.main.runtimeClasspath
+
+    dependsOn cleanGenerated
+
+    // 생성된 코드를 build/generated 디렉토리에 저장합니다.
+    doLast {
+        println("Code generation complete.")
+    }
+}

@@ -1,0 +1,8 @@
+# JOOQ
+server:
+  port: 0
+  shutdown: graceful
+
+spring:
+  main:
+    web-application-type: none
