@@ -8,7 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.Comment;
 
 @Getter
-@Builder(toBuilder = true)
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member",
