@@ -33,7 +33,9 @@ public class CodeGenerator {
             // 2. 생성할 템플릿 목록
             List<String> templates = Arrays.asList(
                     MODULE_SERVER_INTERFACES + "/Controller.mustache",
-                    MODULE_SERVER_INTERFACES + "/BulkEditRequest.mustache"
+                    MODULE_SERVER_INTERFACES + "/BulkRegisterRequest.mustache",
+                    MODULE_SERVER_INTERFACES + "/BulkEditRequest.mustache",
+                    MODULE_SERVER_INTERFACES + "/BulkRemoveRequest.mustache"
             );
 
             // 3. 각 엔티티 클래스에 대해 코드 생성
