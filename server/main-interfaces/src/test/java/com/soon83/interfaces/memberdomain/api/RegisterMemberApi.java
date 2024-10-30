@@ -1,8 +1,7 @@
 package com.soon83.interfaces.memberdomain.api;
 
 import com.soon83.dtos.enums.MemberRole;
-import com.soon83.interfaces.common.Scenario;
-import com.soon83.interfaces.memberdomain.RegisterMember;
+import com.soon83.interfaces.member.MemberRegisterRequest;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.springframework.http.HttpStatus;
@@ -39,8 +38,8 @@ public class RegisterMemberApi {
         return this;
     }
 
-    public Scenario request() {
-        final RegisterMember.Request request = new RegisterMember.Request(
+    public void request() {
+        MemberRegisterRequest request = new MemberRegisterRequest(
                 loginId,
                 password,
                 name,
@@ -53,10 +52,8 @@ public class RegisterMemberApi {
                 .contentType(ContentType.JSON)
                 .body(request)
                 .when()
-                .post("/member-list")
+                .post("/api/member-list")
                 .then().log().all()
                 .statusCode(HttpStatus.CREATED.value());
-
-        return new Scenario();
     }
 }

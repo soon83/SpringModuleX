@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -72,6 +73,7 @@ public class MemberController {
      * 회원 단건 등록
      */
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public MemberInfoResponse registerMemberInfo(@RequestBody @Valid MemberRegisterRequest request) {
         log.debug("# registerMemberInfo # request: {}", request);
         MemberCreateCommand command = memberInterfaceMapper.toMemberCreateCommand(request);
@@ -83,6 +85,7 @@ public class MemberController {
      * 회원 대량 등록
      */
     @PostMapping("/bulk")
+    @ResponseStatus(HttpStatus.CREATED)
     public List<MemberInfoResponse> registerBulkMemberInfo(@RequestBody @Valid MemberBulkRegisterRequest request) {
         log.debug("# registerBulkMemberInfo # request: {}", request);
         MemberBulkCreateCommand bulkCommand = memberInterfaceMapper.toMemberBulkCreateCommand(request);
