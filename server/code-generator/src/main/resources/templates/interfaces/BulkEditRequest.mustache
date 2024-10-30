@@ -1,3 +1,4 @@
+<!--@formatter:off-->
 package {{packageGroupName}}.{{moduleServerInterfaces}}.{{entityNameLower}};
 
 import jakarta.validation.Valid;
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class {{entityName}}BulkEditRequest {
-@NotNull(message = "{{comment}} 수정요청목록은 필수값 입니다.")
-@Size(min = 1, message = "{{comment}} 수정요청목록은 최소 1개 이상 입력해 주세요.")
-private List<@Valid {{entityName}}EditRequest> requestList;
+    @NotNull(message = "{{comment}} 수정요청목록은 필수값 입니다.")
+    @Size(min = 1, message = "{{comment}} 수정요청목록은 최소 1개 이상 입력해 주세요.")
+    private List<@Valid {{entityName}}EditRequest> requestList;
 }
