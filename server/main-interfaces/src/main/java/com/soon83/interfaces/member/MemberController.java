@@ -51,7 +51,7 @@ public class MemberController {
             @ModelAttribute @Valid MemberSearchRequest request,
             Sortable sortable
     ) {
-        log.debug("# searchAllMemberInfoList # request: {}, # sortable: {}", request, sortable);
+        log.debug("# searchAllMemberInfoList # request: {}, sortable: {}", request, sortable);
         MemberSearchCondition searchCondition = memberInterfaceMapper.toMemberSearchCondition(request);
         List<MemberInfo> allMemberInfoList = memberFacade.searchAllMemberInfoList(searchCondition, sortable);
         return allMemberInfoList.stream()
@@ -62,10 +62,10 @@ public class MemberController {
     /**
      * 회원 단건 조회
      */
-    @GetMapping("/{userId}")
-    public MemberInfoResponse searchMemberInfo(@PathVariable Long userId) {
-        log.debug("# searchUserInfo # userId: {}", userId);
-        MemberInfo memberInfo = memberFacade.searchMemberInfo(userId);
+    @GetMapping("/{memberId}")
+    public MemberInfoResponse searchMemberInfo(@PathVariable Long memberId) {
+        log.debug("# searchMemberInfo # memberId: {}", memberId);
+        MemberInfo memberInfo = memberFacade.searchMemberInfo(memberId);
         return memberInterfaceMapper.toMemberInfoResponse(memberInfo);
     }
 

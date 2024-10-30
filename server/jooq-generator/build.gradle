@@ -7,11 +7,10 @@ dependencies {
     runtimeOnly libs.mariadb.java.client
 }
 
-task _init_JOOQ(type: JavaExec) {
+tasks.register('_GENERATE_JOOQ', JavaExec) {
     group = 'build'
-    description = 'Run Spring Boot to generate database schema'
-    main = 'com.soon83.GenerateJooq'
+    mainClass = 'com.soon83.JooqGenerator'
     classpath = sourceSets.main.runtimeClasspath
 }
 
-_init_JOOQ.finalizedBy project(':core-entities').tasks.clean
+tasks._GENERATE_JOOQ.finalizedBy project(':core-entities').tasks.clean
