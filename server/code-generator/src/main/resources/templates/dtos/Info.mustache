@@ -1,0 +1,20 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}};
+
+{{#imports}}
+import {{.}};
+{{/imports}}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
+@AllArgsConstructor
+public class {{entityName}}Info {
+    {{#fields}}
+    private final {{type}} {{name}};
+    {{/fields}}
+}

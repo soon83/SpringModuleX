@@ -1,0 +1,17 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}};
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+
+import java.util.List;
+
+@Getter
+@ToString
+@AllArgsConstructor
+public class {{entityName}}BulkDeleteCommand {
+    private final List<{{entityName}}DeleteCommand> commandList;
+}

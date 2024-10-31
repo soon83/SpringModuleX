@@ -41,7 +41,15 @@ public class CodeGenerator {
                     MODULE_SERVER_INTERFACES + "/RemoveRequest.mustache",
                     MODULE_SERVER_INTERFACES + "/SearchRequest.mustache",
                     MODULE_SERVER_INTERFACES + "/InfoResponse.mustache",
-                    MODULE_SERVER_INTERFACES + "/InterfaceMapper.mustache"
+                    MODULE_SERVER_INTERFACES + "/InterfaceMapper.mustache",
+                    MODULE_COMMON_DTOS + "/BulkCreateCommand.mustache",
+                    MODULE_COMMON_DTOS + "/BulkUpdateCommand.mustache",
+                    MODULE_COMMON_DTOS + "/BulkDeleteCommand.mustache",
+                    MODULE_COMMON_DTOS + "/CreateCommand.mustache",
+                    MODULE_COMMON_DTOS + "/UpdateCommand.mustache",
+                    MODULE_COMMON_DTOS + "/DeleteCommand.mustache",
+                    MODULE_COMMON_DTOS + "/SearchCondition.mustache",
+                    MODULE_COMMON_DTOS + "/Info.mustache"
             );
 
             for (Class<?> entityClass : entityClasses) {
@@ -65,11 +73,10 @@ public class CodeGenerator {
     }
 
     private static String determineTypeFromTemplate(String template) {
-        if (template.contains("RegisterRequest")) return "Register";
-        if (template.contains("EditRequest")) return "Edit";
-        if (template.contains("RemoveRequest")) return "Remove";
-        if (template.contains("SearchRequest")) return "Search";
-        if (template.contains("InfoResponse")) return "Info"; // 추가된 타입
+        if (template.contains("RegisterRequest") || template.contains("CreateCommand")) return "Register";
+        if (template.contains("EditRequest") || template.contains("UpdateCommand")) return "Edit";
+        if (template.contains("RemoveRequest") || template.contains("DeleteCommand")) return "Remove";
+        if (template.contains("SearchRequest") || template.contains("SearchCondition")) return "Search";
         return "Edit";
     }
 
@@ -155,41 +162,30 @@ public class CodeGenerator {
         Set<String> imports = new TreeSet<>();
 
         // Enum 타입 필드가 실제로 존재하는 경우에만 import 추가
-        boolean hasEnumField = false;
         for (Field field : entityClass.getDeclaredFields()) {
             if (field.getType().isEnum() && fields.stream().anyMatch(f -> f.get("type").equals(field.getType().getSimpleName()))) {
                 imports.add(field.getType().getName());
-                hasEnumField = true;
             }
         }
 
         // 필드의 검증 어노테이션 사용 여부를 체크하고 필요한 경우에만 import 추가
-        boolean hasNotBlank = false;
-        boolean hasNotNull = false;
-        boolean hasSize = false;
-
+        String jakartaValidationConstraints = "jakarta.validation.constraints.";
         for (Map<String, Object> field : fields) {
             List<Map<String, String>> validations = (List<Map<String, String>>) field.get("validations");
 
             for (Map<String, String> validation : validations) {
                 String annotation = validation.get("validationAnnotation");
-                if (annotation.contains("@NotBlank")) {
-                    hasNotBlank = true;
+                if (annotation.contains("NotBlank")) {
+                    imports.add(jakartaValidationConstraints + "NotBlank");
                 }
-                if (annotation.contains("@NotNull")) {
-                    hasNotNull = true;
+                if (annotation.contains("NotNull")) {
+                    imports.add(jakartaValidationConstraints + "NotNull");
                 }
-                if (annotation.contains("@Size")) {
-                    hasSize = true;
+                if (annotation.contains("Size")) {
+                    imports.add(jakartaValidationConstraints + "Size");
                 }
             }
         }
-
-        // 실제 사용된 어노테이션에 대한 import만 추가
-        String jakartaValidationConstraints = "jakarta.validation.constraints.";
-        if (hasNotBlank) imports.add(jakartaValidationConstraints + "NotBlank");
-        if (hasNotNull) imports.add(jakartaValidationConstraints + "NotNull");
-        if (hasSize) imports.add(jakartaValidationConstraints + "Size");
 
         return imports;
     }

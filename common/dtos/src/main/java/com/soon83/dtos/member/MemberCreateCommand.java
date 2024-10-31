@@ -9,9 +9,9 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public class MemberCreateCommand {
-	private final String loginId;
-	private final String password;
-	private final String name;
-	private final String email;
-	private final MemberRole role;
+    private final String loginId;
+    private final String password;
+    private final String name;
+    private final String email;
+    private final MemberRole role;
 }
