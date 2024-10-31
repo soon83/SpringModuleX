@@ -46,7 +46,7 @@ public class Member extends BaseEntity {
 
     @Column(name = "role", nullable = false, length = 31)
     @Enumerated(EnumType.STRING)
-    @Comment("역할")
+    @Comment("유형")
     private MemberRole role;
 
     public void update(

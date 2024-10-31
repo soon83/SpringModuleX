@@ -1,10 +1,12 @@
 dependencies {
     // core
+    implementation project(':common-dtos')
+
+    // core
     implementation project(':core-entities')
 
     // libs
     implementation libs.spring.boot.starter.data.jpa
-    implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-mustache'
     implementation 'io.spring.initializr:initializr-generator:0.21.0'
     implementation 'com.github.spullara.mustache.java:compiler:0.9.11'

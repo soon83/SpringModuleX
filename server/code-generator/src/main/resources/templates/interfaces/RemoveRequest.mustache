@@ -1,0 +1,23 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleServerInterfaces}}.{{entityNameLower}};
+
+{{#imports}}
+import {{.}};
+{{/imports}}
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class {{entityName}}RemoveRequest {
+    {{#fields}}
+    {{{validationAnnotation}}}
+    private {{type}} {{name}};
+    {{/fields}}
+}
