@@ -1,0 +1,30 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.interfaces.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+
+@Mapper(componentModel = "spring")
+public interface {{entityName}}InterfaceMapper {
+    {{entityName}}SearchCondition to{{entityName}}SearchCondition({{entityName}}SearchRequest request);
+
+    {{entityName}}InfoResponse to{{entityName}}InfoResponse({{entityName}}Info info);
+
+    {{entityName}}CreateCommand to{{entityName}}CreateCommand({{entityName}}RegisterRequest request);
+
+    {{entityName}}UpdateCommand to{{entityName}}UpdateCommand({{entityName}}EditRequest request);
+
+    {{entityName}}DeleteCommand to{{entityName}}DeleteCommand({{entityName}}RemoveRequest request);
+
+    @Mapping(source = "requestList", target = "commandList")
+    {{entityName}}BulkCreateCommand to{{entityName}}BulkCreateCommand({{entityName}}BulkRegisterRequest request);
+
+    @Mapping(source = "requestList", target = "commandList")
+    {{entityName}}BulkUpdateCommand to{{entityName}}BulkUpdateCommand({{entityName}}BulkEditRequest request);
+
+    @Mapping(source = "requestList", target = "commandList")
+    {{entityName}}BulkDeleteCommand to{{entityName}}BulkDeleteCommand({{entityName}}BulkRemoveRequest request);
+}

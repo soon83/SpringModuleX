@@ -6,41 +6,22 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MemberInterfaceMapper {
-	/**
-	 * source 와 target 간 변수명이 다르다면, 아래처럼 맵핑 하십쇼
-	 * @Mappings({
-	 *     @Mapping(source = "loginId", target = "userLoginId"), // source 와 target 객체 간, 변수명이 다를 때 처리 방법
-	 *     @Mapping(source = "product.itemCode", target = "itemCodeId", qualifiedByName = "mapObjectToLong"), // 객체가 null 일 수도 있을 때 처리 방법
-	 * })
-	 */
-	MemberSearchCondition toMemberSearchCondition(MemberSearchRequest request);
+    MemberSearchCondition toMemberSearchCondition(MemberSearchRequest request);
 
-	MemberInfoResponse toMemberInfoResponse(MemberInfo info);
+    MemberInfoResponse toMemberInfoResponse(MemberInfo info);
 
-	MemberCreateCommand toMemberCreateCommand(MemberRegisterRequest request);
+    MemberCreateCommand toMemberCreateCommand(MemberRegisterRequest request);
 
-	MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
+    MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
 
-	MemberDeleteCommand toMemberDeleteCommand(MemberRemoveRequest request);
+    MemberDeleteCommand toMemberDeleteCommand(MemberRemoveRequest request);
 
-	@Mapping(source = "requestList", target = "commandList")
-	MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
+    @Mapping(source = "requestList", target = "commandList")
+    MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
 
-	@Mapping(source = "requestList", target = "commandList")
-	MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
+    @Mapping(source = "requestList", target = "commandList")
+    MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
 
-	@Mapping(source = "requestList", target = "commandList")
-	MemberBulkDeleteCommand toMemberBulkDeleteCommand(MemberBulkRemoveRequest request);
-
-	/**
-	 * Long 타입 처리 (예: customer.address.cityId 같은 경로에 대한 처리)
-	 * 즉, map 을 여러번 해야할 경우는 직접 메서드를 만들어서 사용하자
-	 */
-    /*@Named("mapCustomerToCityId")
-    public static Long mapCustomerToCityId(Customer customer) {
-        return Optional.ofNullable(customer)
-            .map(Customer::getAddress)
-            .map(Address::getCityId)
-            .orElse(null);
-    }*/
+    @Mapping(source = "requestList", target = "commandList")
+    MemberBulkDeleteCommand toMemberBulkDeleteCommand(MemberBulkRemoveRequest request);
 }

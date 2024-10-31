@@ -40,7 +40,8 @@ public class CodeGenerator {
                     MODULE_SERVER_INTERFACES + "/EditRequest.mustache",
                     MODULE_SERVER_INTERFACES + "/RemoveRequest.mustache",
                     MODULE_SERVER_INTERFACES + "/SearchRequest.mustache",
-                    MODULE_SERVER_INTERFACES + "/InfoResponse.mustache" // 추가된 템플릿
+                    MODULE_SERVER_INTERFACES + "/InfoResponse.mustache",
+                    MODULE_SERVER_INTERFACES + "/InterfaceMapper.mustache"
             );
 
             for (Class<?> entityClass : entityClasses) {
