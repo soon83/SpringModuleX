@@ -39,7 +39,8 @@ public class CodeGenerator {
                     MODULE_SERVER_INTERFACES + "/RegisterRequest.mustache",
                     MODULE_SERVER_INTERFACES + "/EditRequest.mustache",
                     MODULE_SERVER_INTERFACES + "/RemoveRequest.mustache",
-                    MODULE_SERVER_INTERFACES + "/SearchRequest.mustache"
+                    MODULE_SERVER_INTERFACES + "/SearchRequest.mustache",
+                    MODULE_SERVER_INTERFACES + "/InfoResponse.mustache" // 추가된 템플릿
             );
 
             for (Class<?> entityClass : entityClasses) {
@@ -67,6 +68,7 @@ public class CodeGenerator {
         if (template.contains("EditRequest")) return "Edit";
         if (template.contains("RemoveRequest")) return "Remove";
         if (template.contains("SearchRequest")) return "Search";
+        if (template.contains("InfoResponse")) return "Info"; // 추가된 타입
         return "Edit";
     }
 
@@ -74,24 +76,25 @@ public class CodeGenerator {
         List<Map<String, Object>> fields = new ArrayList<>();
         Field[] declaredFields = entityClass.getDeclaredFields();
 
-        int processedFields = 0;
-
-        // 필터링된 필드 목록 생성
         List<Field> applicableFields = new ArrayList<>();
         for (Field field : declaredFields) {
             boolean isIdField = field.isAnnotationPresent(Id.class);
 
+            // Register에서는 ID 필드를 제외하고, Remove에서는 ID 필드만 포함
             if ("Register".equals(type) && isIdField) continue;
             if ("Remove".equals(type) && !isIdField) continue;
 
             applicableFields.add(field);
         }
 
-        // 필터링된 필드 목록을 기반으로 줄바꿈 로직 적용
+        int processedFields = 0;
         for (Field field : applicableFields) {
+            boolean isIdField = field.isAnnotationPresent(Id.class); // 루프 내에서 초기화
+
             Map<String, Object> fieldInfo = new HashMap<>();
             fieldInfo.put("type", field.getType().getSimpleName());
             fieldInfo.put("name", field.getName());
+            fieldInfo.put("capitalizedName", capitalize(field.getName())); // Getter 메서드 이름에 사용
 
             String fieldComment = getComment(field).orElse("");
             String postPosition = getPostposition(fieldComment);
@@ -111,7 +114,7 @@ public class CodeGenerator {
                     if (sizeAnnotation != null) {
                         validations.add(Map.of("validationAnnotation", sizeAnnotation));
                     }
-                } else if (field.isAnnotationPresent(Id.class) || field.getType().isEnum()) {
+                } else if (isIdField || field.getType().isEnum()) {  // isIdField 사용
                     validations.add(Map.of("validationAnnotation", String.format(
                             "@NotNull(message = \"%s %s%s 필수값 입니다.\")",
                             classComment, fieldComment, postPosition)));
@@ -119,6 +122,7 @@ public class CodeGenerator {
             }
 
             fieldInfo.put("validations", validations);
+            fieldInfo.put("isEnum", field.getType().isEnum()); // Enum 여부 추가
 
             // 마지막 필드가 아닌 경우에만 줄바꿈 추가
             if (++processedFields < applicableFields.size()) {
@@ -127,8 +131,14 @@ public class CodeGenerator {
 
             fields.add(fieldInfo);
         }
-
         return fields;
+    }
+
+    private static String capitalize(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     private static String generateSizeAnnotation(Field field, String classComment, String fieldComment) {
@@ -143,29 +153,43 @@ public class CodeGenerator {
     private static Set<String> getUsedImports(Class<?> entityClass, List<Map<String, Object>> fields) {
         Set<String> imports = new TreeSet<>();
 
+        // Enum 타입 필드가 실제로 존재하는 경우에만 import 추가
+        boolean hasEnumField = false;
         for (Field field : entityClass.getDeclaredFields()) {
             if (field.getType().isEnum() && fields.stream().anyMatch(f -> f.get("type").equals(field.getType().getSimpleName()))) {
                 imports.add(field.getType().getName());
+                hasEnumField = true;
             }
         }
 
+        // 필드의 검증 어노테이션 사용 여부를 체크하고 필요한 경우에만 import 추가
+        boolean hasNotBlank = false;
+        boolean hasNotNull = false;
+        boolean hasSize = false;
+
         for (Map<String, Object> field : fields) {
             List<Map<String, String>> validations = (List<Map<String, String>>) field.get("validations");
-            String jakartaValidationConstraints = "jakarta.validation.constraints.";
 
             for (Map<String, String> validation : validations) {
                 String annotation = validation.get("validationAnnotation");
                 if (annotation.contains("@NotBlank")) {
-                    imports.add(jakartaValidationConstraints + "NotBlank");
+                    hasNotBlank = true;
                 }
                 if (annotation.contains("@NotNull")) {
-                    imports.add(jakartaValidationConstraints + "NotNull");
+                    hasNotNull = true;
                 }
                 if (annotation.contains("@Size")) {
-                    imports.add(jakartaValidationConstraints + "Size");
+                    hasSize = true;
                 }
             }
         }
+
+        // 실제 사용된 어노테이션에 대한 import만 추가
+        String jakartaValidationConstraints = "jakarta.validation.constraints.";
+        if (hasNotBlank) imports.add(jakartaValidationConstraints + "NotBlank");
+        if (hasNotNull) imports.add(jakartaValidationConstraints + "NotNull");
+        if (hasSize) imports.add(jakartaValidationConstraints + "Size");
+
         return imports;
     }
 
