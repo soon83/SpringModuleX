@@ -17,7 +17,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class {{entityName}}RemoveRequest {
     {{#fields}}
+    {{#validations}}
     {{{validationAnnotation}}}
-    private {{type}} {{name}};
+    {{/validations}}
+    private {{type}} {{name}};{{{newline}}}
     {{/fields}}
 }

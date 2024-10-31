@@ -17,7 +17,9 @@ import lombok.ToString;
 @AllArgsConstructor
 public class {{entityName}}RegisterRequest {
     {{#fields}}
+    {{#validations}}
     {{{validationAnnotation}}}
+    {{/validations}}
     private {{type}} {{name}};{{{newline}}}
     {{/fields}}
 }

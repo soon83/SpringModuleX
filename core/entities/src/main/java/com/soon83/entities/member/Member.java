@@ -32,7 +32,7 @@ public class Member extends BaseEntity {
     @Comment("로그인 아이디")
     private String loginId;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 255)
     @Comment("비밀번호")
     private String password;
 
