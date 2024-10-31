@@ -13,5 +13,4 @@ import lombok.ToString;
 public class MemberRemoveRequest {
     @NotNull(message = "회원 아이디는 필수값 입니다.")
     private Long memberId;
-
 }

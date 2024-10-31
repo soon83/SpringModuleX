@@ -35,5 +35,4 @@ public class MemberEditRequest {
 
     @NotNull(message = "회원 유형은 필수값 입니다.")
     private MemberRole role;
-
 }

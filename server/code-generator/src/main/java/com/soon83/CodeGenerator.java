@@ -74,12 +74,21 @@ public class CodeGenerator {
         List<Map<String, Object>> fields = new ArrayList<>();
         Field[] declaredFields = entityClass.getDeclaredFields();
 
+        int processedFields = 0;
+
+        // 필터링된 필드 목록 생성
+        List<Field> applicableFields = new ArrayList<>();
         for (Field field : declaredFields) {
             boolean isIdField = field.isAnnotationPresent(Id.class);
 
             if ("Register".equals(type) && isIdField) continue;
             if ("Remove".equals(type) && !isIdField) continue;
 
+            applicableFields.add(field);
+        }
+
+        // 필터링된 필드 목록을 기반으로 줄바꿈 로직 적용
+        for (Field field : applicableFields) {
             Map<String, Object> fieldInfo = new HashMap<>();
             fieldInfo.put("type", field.getType().getSimpleName());
             fieldInfo.put("name", field.getName());
@@ -102,7 +111,7 @@ public class CodeGenerator {
                     if (sizeAnnotation != null) {
                         validations.add(Map.of("validationAnnotation", sizeAnnotation));
                     }
-                } else if (isIdField || field.getType().isEnum()) {
+                } else if (field.isAnnotationPresent(Id.class) || field.getType().isEnum()) {
                     validations.add(Map.of("validationAnnotation", String.format(
                             "@NotNull(message = \"%s %s%s 필수값 입니다.\")",
                             classComment, fieldComment, postPosition)));
@@ -110,9 +119,15 @@ public class CodeGenerator {
             }
 
             fieldInfo.put("validations", validations);
-            fieldInfo.put("newline", "\n");
+
+            // 마지막 필드가 아닌 경우에만 줄바꿈 추가
+            if (++processedFields < applicableFields.size()) {
+                fieldInfo.put("newline", "\n");
+            }
+
             fields.add(fieldInfo);
         }
+
         return fields;
     }
 

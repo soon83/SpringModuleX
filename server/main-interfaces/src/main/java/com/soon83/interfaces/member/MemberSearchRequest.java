@@ -27,5 +27,4 @@ public class MemberSearchRequest {
     private String email;
 
     private MemberRole role;
-
 }
