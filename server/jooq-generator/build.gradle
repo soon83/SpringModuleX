@@ -9,7 +9,7 @@ dependencies {
 
 tasks.register('_GENERATE_JOOQ', JavaExec) {
     group = 'build'
-    mainClass = 'com.soon83.JooqGenerator'
+    mainClass = "${packageGroup}.JooqGenerator"
     classpath = sourceSets.main.runtimeClasspath
 }
 
