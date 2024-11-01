@@ -21,12 +21,14 @@ public class CodeGenerator {
     public static void main(String[] args) {
         try {
             // 엔티티 클래스 검색
-            Set<Class<?>> entityClasses = GeneratorUtil.findEntityClasses(ModuleConstants.PACKAGE_GROUP_NAME + "." + ModuleConstants.MODULE_CORE_ENTITIES);
+            Set<Class<?>> entityClasses = GeneratorUtil.findEntityClasses(ModuleConstants.PACKAGE_GROUP_NAME.getValue() + "." + ModuleConstants.MODULE_CORE_ENTITIES.getValue());
+            entityClasses.forEach(System.out::println);
 
             // 템플릿 검색
             List<String> templates = Arrays.stream(TemplateFiles.values())
                     .map(TemplateFiles::getPath)
                     .toList();
+            templates.forEach(System.out::println);
 
             for (Class<?> entityClass : entityClasses) {
                 // 엔티티 클래스의 필드 및 Validation 정보 분류

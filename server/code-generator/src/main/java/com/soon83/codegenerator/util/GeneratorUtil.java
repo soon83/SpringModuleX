@@ -111,7 +111,7 @@ public class GeneratorUtil {
         String basePath = "build/generated";
         String templateModule = templateName.split("/")[0];
         String packagePath = String.format("%s.%s.%s",
-                ModuleConstants.PACKAGE_GROUP_NAME,
+                ModuleConstants.PACKAGE_GROUP_NAME.getValue(),
                 templateModule,
                 entityName.toLowerCase()
         );
