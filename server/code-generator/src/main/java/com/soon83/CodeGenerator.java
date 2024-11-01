@@ -84,8 +84,8 @@ public class CodeGenerator {
                         || template.contains("Details")
                         || template.contains("Condition")
         ) {
-            if (template.contains("Create")) return "Register";
-            if (template.contains("Delete")) return "Remove";
+            if (template.contains("Create")) return "Register|None";
+            if (template.contains("Delete")) return "Remove|None";
 
         } else if (template.contains("Request")) {
             if (template.contains("Register")) return "Register";
@@ -105,8 +105,8 @@ public class CodeGenerator {
             boolean isIdField = field.isAnnotationPresent(Id.class);
 
             // Register에서는 ID 필드를 제외하고, Remove에서는 ID 필드만 포함
-            if ("Register".equals(type) && isIdField) continue;
-            if ("Remove".equals(type) && !isIdField) continue;
+            if (type.contains("Register") && isIdField) continue;
+            if (type.contains("Remove") && !isIdField) continue;
 
             applicableFields.add(field);
         }
@@ -126,7 +126,7 @@ public class CodeGenerator {
 
             System.out.println("\nProcessing field: " + field.getName() + " (" + field.getType().getSimpleName() + ")");
             System.out.println("  객체 타입: " + type);
-            if (!"None".equals(type)) {
+            if (!type.contains("None")) {
                 if ("Search".equals(type)) {
                     String sizeAnnotation = generateSizeAnnotation(field, classComment, fieldComment);
                     if (sizeAnnotation != null) {
