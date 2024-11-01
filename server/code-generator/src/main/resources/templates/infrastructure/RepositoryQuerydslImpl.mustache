@@ -1,0 +1,64 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreInfrastructure}}.{{entityNameLower}};
+
+import com.querydsl.jpa.impl.JPAQueryFactory;
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.{{entityName}}SearchCondition;
+import {{packageGroupName}}.{{moduleCommonDtos}}.utils.Sortable;
+import {{packageGroupName}}.{{moduleCoreEntities}}.{{entityNameLower}}.{{entityName}};
+import {{packageGroupName}}.{{moduleCoreInfrastructure}}.utils.CustomQuerydslRepositorySupport;
+import {{packageGroupName}}.utils.AssertUtil;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
+
+import static {{packageGroupName}}.{{moduleCoreEntities}}.{{entityNameLower}}.Q{{entityName}}.{{entityNameLower}};
+import static {{packageGroupName}}.{{moduleCoreInfrastructure}}.utils.CustomExpressionUtil.eq;
+import static {{packageGroupName}}.{{moduleCoreInfrastructure}}.utils.CustomExpressionUtil.like;
+
+public class {{entityName}}RepositoryQuerydslImpl extends CustomQuerydslRepositorySupport implements {{entityName}}RepositoryQuerydsl {
+    private final JPAQueryFactory queryFactory;
+
+    public {{entityName}}RepositoryQuerydslImpl(JPAQueryFactory queryFactory) {
+        super({{entityName}}.class);
+        this.queryFactory = queryFactory;
+    }
+
+    @Override
+    public Page<{{entityName}}> getPage{{entityName}}List({{entityName}}SearchCondition searchCond, Pageable pageable) {
+        return applyPagination(pageable, queryFactory -> queryFactory
+                .selectFrom({{entityNameLower}})
+                .where(
+                        like({{entityNameLower}}.loginId, searchCond.getLoginId()),
+                        like({{entityNameLower}}.name, searchCond.getName())
+                )
+        );
+    }
+
+    @Override
+    public List<{{entityName}}> getAll{{entityName}}List({{entityName}}SearchCondition searchCond, Sortable sortable) {
+        return queryFactory
+                .selectFrom({{entityNameLower}})
+                .where(
+                        like({{entityNameLower}}.loginId, searchCond.getLoginId()),
+                        like({{entityNameLower}}.name, searchCond.getName())
+                )
+                .limit(sortable.getLimit())
+                .fetch();
+    }
+
+    @Override
+    public Optional<{{entityName}}> get{{entityName}}(Long {{entityNameLower}}Id) {
+        AssertUtil.notNull({{entityNameLower}}Id, "{{entityNameLower}}Id");
+
+        return Optional.ofNullable(queryFactory
+                .selectFrom({{entityNameLower}})
+                .where(
+                        eq({{entityNameLower}}.{{entityNameLower}}Id, {{entityNameLower}}Id)
+                )
+                .fetchOne());
+    }
+}

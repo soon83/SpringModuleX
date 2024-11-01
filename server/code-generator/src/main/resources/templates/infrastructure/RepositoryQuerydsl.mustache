@@ -1,0 +1,21 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreInfrastructure}}.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.{{entityName}}SearchCondition;
+import {{packageGroupName}}.{{moduleCommonDtos}}.utils.Sortable;
+import {{packageGroupName}}.entities.{{entityNameLower}}.{{entityName}};
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface {{entityName}}RepositoryQuerydsl {
+    Page<{{entityName}}> getPage{{entityName}}List({{entityName}}SearchCondition searchCond, Pageable pageable);
+
+    List<{{entityName}}> getAll{{entityName}}List({{entityName}}SearchCondition searchCond, Sortable sortable);
+
+    Optional<{{entityName}}> get{{entityName}}(Long {{entityNameLower}}Id);
+}

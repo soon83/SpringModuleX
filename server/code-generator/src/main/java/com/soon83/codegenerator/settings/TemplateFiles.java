@@ -33,6 +33,10 @@ public enum TemplateFiles {
     READER(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "Reader"),
     STORE(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "Store"),
     REPOSITORY(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "Repository"),
+    REPOSITORY_JOOQ(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "RepositoryJooq"),
+    REPOSITORY_JOOQ_IMPL(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "RepositoryJooqImpl"),
+    REPOSITORY_QUERYDSL(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "RepositoryQuerydsl"),
+    REPOSITORY_QUERYDSL_IMPL(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "RepositoryQuerydslImpl"),
 
     // Domain Dto
     BULK_CREATE_COMMAND(ModuleConstants.MODULE_COMMON_DTOS, "BulkCreateCommand"),

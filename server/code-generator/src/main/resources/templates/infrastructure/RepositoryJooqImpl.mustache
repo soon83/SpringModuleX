@@ -1,0 +1,17 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreInfrastructure}}.{{entityNameLower}};
+
+import lombok.RequiredArgsConstructor;
+import org.jooq.DSLContext;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+@RequiredArgsConstructor
+public class {{entityName}}RepositoryJooqImpl implements {{entityName}}RepositoryJooq {
+    private final DSLContext dsl;
+}
