@@ -3,7 +3,6 @@ package com.soon83.codegenerator.util;
 import com.soon83.codegenerator.strategy.TemplateType;
 import com.soon83.codegenerator.strategy.field.FieldInclusionStrategy;
 import com.soon83.codegenerator.strategy.validation.ValidationStrategy;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import org.hibernate.annotations.Comment;
 import org.reflections.Reflections;
@@ -28,7 +27,6 @@ public class GeneratorUtil {
         Field[] declaredFields = entityClass.getDeclaredFields();
         List<Field> includedFields = new ArrayList<>();
 
-        // 필터링된 필드 리스트 생성
         for (Field field : declaredFields) {
             if (inclusionStrategy.shouldInclude(field)) {
                 includedFields.add(field);
@@ -47,7 +45,6 @@ public class GeneratorUtil {
             fieldInfo.put("isEnum", field.getType().isEnum());
             fieldInfo.put("validations", validations);
 
-            // 필드가 여러 개일 때 마지막 필드가 아니면 newLine 추가
             if (includedFields.size() > 1 && i < includedFields.size() - 1) {
                 fieldInfo.put("newline", "\n");
             }
@@ -59,7 +56,6 @@ public class GeneratorUtil {
     }
 
     public static Set<String> getUsedImports(Class<?> entityClass, List<Map<String, Object>> fields, Set<String> imports) {
-        // Enum 타입 필드가 실제로 존재하는 경우에만 import 추가
         for (Field field : entityClass.getDeclaredFields()) {
             if (field.getType().isEnum() && fields.stream().anyMatch(f -> f.get("type").equals(field.getType().getSimpleName()))) {
                 imports.add(field.getType().getName());
@@ -68,15 +64,6 @@ public class GeneratorUtil {
         }
 
         return imports;
-    }
-
-    public static String generateSizeAnnotation(Field field, String classComment, String fieldComment) {
-        Column column = field.getAnnotation(Column.class);
-        if (field.getType().equals(String.class) && column != null && column.length() > 0) {
-            return String.format("@Size(max = %d, message = \"%s %s의 최대 길이는 %d 입니다.\")",
-                    column.length(), classComment, fieldComment, column.length());
-        }
-        return null;
     }
 
     public static String getPostposition(String word) {

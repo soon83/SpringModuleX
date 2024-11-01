@@ -9,6 +9,6 @@ import java.util.Set;
 public class NoneValidation implements ValidationStrategy {
     @Override
     public List<Map<String, String>> validate(Field field, String classComment, String fieldComment, Set<String> imports) {
-        return new ArrayList<>(); // validation 없이 빈 리스트 반환
+        return new ArrayList<>();
     }
 }

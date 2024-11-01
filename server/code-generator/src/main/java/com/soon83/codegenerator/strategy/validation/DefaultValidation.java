@@ -16,22 +16,22 @@ public class DefaultValidation implements ValidationStrategy {
 
         String postPosition = GeneratorUtil.getPostposition(fieldComment);
 
-        // String 필드에 대해 NotBlank와 Size 검증을 수행
         if (field.getType().equals(String.class)) {
             validations.addAll(new RequiredValidation().validate(field, classComment, fieldComment, imports));
             validations.addAll(new OptionalValidation().validate(field, classComment, fieldComment, imports));
         }
 
-        // Id 또는 Enum 필드에 대해 NotNull 검증
         if (field.isAnnotationPresent(Id.class) || field.getType().isEnum()) {
+            String notNull = "NotNull";
             String notNullAnnotation = String.format(
-                    "@NotNull(message = \"%s %s%s 필수값 입니다.\")",
+                    "@%s(message = \"%s %s%s 필수값 입니다.\")",
+                    notNull,
                     classComment,
                     fieldComment,
                     postPosition
             );
             validations.add(Map.of("validationAnnotation", notNullAnnotation));
-            imports.add("jakarta.validation.constraints.NotNull");
+            imports.add("jakarta.validation.constraints.%s".formatted(notNull));
         }
 
         return validations;

@@ -1,6 +1,6 @@
 package com.soon83.codegenerator.strategy.validation;
 
-import com.soon83.codegenerator.util.GeneratorUtil;
+import jakarta.persistence.Column;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -14,10 +14,18 @@ public class OptionalValidation implements ValidationStrategy {
         List<Map<String, String>> validations = new ArrayList<>();
 
         if (field.getType().equals(String.class)) {
-            String sizeAnnotation = GeneratorUtil.generateSizeAnnotation(field, classComment, fieldComment);
-            if (sizeAnnotation != null) {
+            Column column = field.getAnnotation(Column.class);
+            if (column != null && column.length() > 0) {
+                String size = "Size";
+                String sizeAnnotation = String.format("@%s(max = %d, message = \"%s %s의 최대 길이는 %d 입니다.\")",
+                        size,
+                        column.length(),
+                        classComment,
+                        fieldComment,
+                        column.length()
+                );
                 validations.add(Map.of("validationAnnotation", sizeAnnotation));
-                imports.add("jakarta.validation.constraints.Size");
+                imports.add("jakarta.validation.constraints.%s".formatted(size));
             }
         }
 
