@@ -54,7 +54,22 @@ jooq {
                         // name = 'org.jooq.meta.mariadb.MariaDBDatabase'
                         name = 'org.jooq.meta.postgres.PostgresDatabase'
                         // inputSchema = dbSchema // mariadb 에서는 이렇게 설정
-                        inputSchema = 'public' // postgres 에서는 이렇게 설정
+                        // inputSchema = 'public' // postgres 에서는 이렇게 설정
+                        schemata {
+                            schema {
+                                inputSchema = 'public'
+                            }
+                            // 여러 스키마 설정할 때
+                            /*schema {
+                                inputSchema = 'auth'
+                            }
+                            schema {
+                                inputSchema = 'member'
+                            }
+                            schema {
+                                inputSchema = 'payment'
+                            }*/
+                        }
                     }
                     generate {
                         deprecated = false // @Deprecated 주석 생성 안함

@@ -12,12 +12,12 @@ import javax.sql.DataSource;
 
 @Configuration
 public class JooqConfig {
-
 	@Bean
 	public DSLContext dslContext(DataSource dataSource) {
 		org.jooq.Configuration configuration = new DefaultConfiguration()
 			.set(dataSource)
-			.set(SQLDialect.MARIADB)
+				//.set(SQLDialect.MARIADB)
+				.set(SQLDialect.POSTGRES)
 			.set(new Settings().withExecuteLogging(false))
 			.set(new CustomJooqLoggerListener())
 			.set(new org.jooq.conf.Settings().withRenderSchema(false));
