@@ -8,8 +8,12 @@ spring:
   application:
     name: main-server
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
+    #    driver-class-name: org.mariadb.jdbc.Driver
+    #    url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
+    #    username: spring_module_x_${spring.config.activate.on-profile}
+    #    password: spring_module_x_${spring.config.activate.on-profile}!@34
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}
     username: spring_module_x_${spring.config.activate.on-profile}
     password: spring_module_x_${spring.config.activate.on-profile}!@34
   data:
@@ -19,11 +23,13 @@ spring:
         one-indexed-parameters: true
   jpa:
     open-in-view: false
-    database-platform: org.hibernate.dialect.MariaDBDialect
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
+        default_schema: public
         show_sql: false
         format_sql: false
         highlight_sql: true
@@ -46,7 +52,7 @@ logging:
 server:
   port: 10001
 datasource:
-  url: localhost:13306
+  url: localhost:15432
 
 spring:
   config:
@@ -61,7 +67,7 @@ file-path:
 server:
   port: 10001
 datasource:
-  url: localhost:13306
+  url: localhost:15432
 
 spring:
   config:
@@ -76,7 +82,7 @@ file-path:
 server:
   port: 10002
 datasource:
-  url: localhost:13306
+  url: localhost:15432
 
 spring:
   config:
@@ -91,7 +97,7 @@ file-path:
 server:
   port: 10003
 datasource:
-  url: localhost:13306
+  url: localhost:15432
 
 spring:
   config:

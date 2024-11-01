@@ -9,16 +9,18 @@ spring:
   main:
     web-application-type: none
   datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:13306/spring_module_x_${spring.profiles.active}?serverTimezone=UTC&characterEncoding=UTF-8
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:15432/spring_module_x_${spring.profiles.active}
     username: spring_module_x_${spring.profiles.active}
     password: spring_module_x_${spring.profiles.active}!@34
   jpa:
-    database-platform: org.hibernate.dialect.MariaDBDialect
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
+        default_schema: public
         highlight_sql: true
 
 logging:

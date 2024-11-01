@@ -10,9 +10,11 @@ dependencies {
     // libs
     implementation libs.spring.boot.starter.data.jpa
     implementation libs.jooq
-    runtimeOnly libs.mariadb.java.client
-    testImplementation libs.mariadb.java.client
     // runtimeOnly libs.h2
+    // runtimeOnly libs.mariadb.java.client
+    // testImplementation libs.mariadb.java.client
+    runtimeOnly libs.postgresql
+    testImplementation libs.postgresql
     implementation libs.jakarta.xml.bind.api
     implementation libs.jaxb.runtime
 

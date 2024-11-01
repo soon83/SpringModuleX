@@ -6,8 +6,10 @@ def activeProfile = project.hasProperty('profile') ? project.getProperty('profil
 println "Active profile: ${activeProfile}"
 
 def dbSchema = project.findProperty("dbSchema_${activeProfile}")
-def dbParameters = "?serverTimezone=UTC&characterEncoding=UTF-8"
-def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema + dbParameters
+def dbDriver = project.findProperty("dbDriver")
+//def dbParameters = project.findProperty("dbParameters") // postgresql 에서는 사용 안함
+//def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema + dbParameters
+def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema
 def dbUser = project.findProperty("dbUser_${activeProfile}")
 def dbPassword = project.findProperty("dbPassword_${activeProfile}")
 def packageGroup = project.findProperty("packageGroup")
@@ -21,7 +23,8 @@ dependencies {
     implementation libs.spring.boot.starter.data.jpa
 
     // jooq
-    jooqGenerator libs.mariadb.java.client
+    // jooqGenerator libs.mariadb.java.client
+    jooqGenerator libs.postgresql
     jooqGenerator libs.logback.classic
 
     // querydsl
@@ -40,7 +43,7 @@ jooq {
             generateSchemaSourceOnCompilation = true
             generationTool {
                 jdbc {
-                    driver = 'org.mariadb.jdbc.Driver'
+                    driver = dbDriver
                     url = dbUrl
                     user = dbUser
                     password = dbPassword
@@ -48,8 +51,10 @@ jooq {
                 generator {
                     name = 'org.jooq.codegen.DefaultGenerator'
                     database {
-                        name = 'org.jooq.meta.mariadb.MariaDBDatabase'
-                        inputSchema = dbSchema
+                        // name = 'org.jooq.meta.mariadb.MariaDBDatabase'
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        // inputSchema = dbSchema // mariadb 에서는 이렇게 설정
+                        inputSchema = 'public' // postgres 에서는 이렇게 설정
                     }
                     generate {
                         deprecated = false // @Deprecated 주석 생성 안함
