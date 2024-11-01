@@ -29,7 +29,10 @@ public enum TemplateFiles {
     UPDATE_COMMAND(ModuleConstants.MODULE_COMMON_DTOS, "UpdateCommand"),
     DELETE_COMMAND(ModuleConstants.MODULE_COMMON_DTOS, "DeleteCommand"),
     SEARCH_CONDITION(ModuleConstants.MODULE_COMMON_DTOS, "SearchCondition"),
-    INFO(ModuleConstants.MODULE_COMMON_DTOS, "Info");
+    INFO(ModuleConstants.MODULE_COMMON_DTOS, "Info"),
+
+    // Exception
+    NOT_FOUND_EXCEPTION(ModuleConstants.MODULE_COMMON_EXCEPTIONS, "NotFoundException");
 
     private final ModuleConstants module;
     private final String fileName;

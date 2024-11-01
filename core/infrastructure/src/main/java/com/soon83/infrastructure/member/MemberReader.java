@@ -3,7 +3,7 @@ package com.soon83.infrastructure.member;
 import com.soon83.dtos.member.MemberSearchCondition;
 import com.soon83.dtos.utils.Sortable;
 import com.soon83.entities.member.Member;
-import com.soon83.exceptions.member.NotFoundMemberException;
+import com.soon83.exceptions.member.MemberNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ public class MemberReader {
 
     public Member getMemberOrThrow(Long memberId) {
         return memberRepository.getMember(memberId)
-                .orElseThrow(NotFoundMemberException::new);
+                .orElseThrow(MemberNotFoundException::new);
     }
 
     public Member getMemberOrNull(Long memberId) {

@@ -1,0 +1,13 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCommonExceptions}}.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCommonExceptions}}.ErrorCode;
+import {{packageGroupName}}.{{moduleCommonExceptions}}.ServerException;
+
+public class {{entityName}}NotFoundException extends ServerException {
+    public {{entityName}}NotFoundException() {
+        super(ErrorCode.NOT_FOUND_{{entityNameUpper}});
+    }
+}

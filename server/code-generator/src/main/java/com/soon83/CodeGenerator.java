@@ -74,6 +74,7 @@ public class CodeGenerator {
         Map<String, Object> context = new HashMap<>();
         context.put("entityName", entityName);
         context.put("entityNameLower", entityName.toLowerCase());
+        context.put("entityNameUpper", entityName.toUpperCase());
         context.put("comment", comment);
         context.put("fields", fields);
         context.put("imports", imports);
