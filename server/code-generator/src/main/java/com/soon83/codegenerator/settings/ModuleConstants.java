@@ -1,4 +1,4 @@
-package com.soon83.codegenerator;
+package com.soon83.codegenerator.settings;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +13,7 @@ public enum ModuleConstants {
     MODULE_COMMON_DTOS("dtos", "moduleCommonDtos"),
     MODULE_COMMON_EXCEPTIONS("exceptions", "moduleCommonExceptions"),
     MODULE_SERVER_INTERFACES("interfaces", "moduleServerInterfaces"),
+    MODULE_CORE_INFRASTRUCTURE("infrastructure", "moduleCoreInfrastructure")
     ;
 
     private final String value;

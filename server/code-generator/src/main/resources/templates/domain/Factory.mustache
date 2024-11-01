@@ -1,0 +1,48 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreDomain}}.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.{{entityName}}CreateCommand;
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.{{entityName}}UpdateCommand;
+import {{packageGroupName}}.{{moduleCoreEntities}}.BaseEntity;
+import {{packageGroupName}}.{{moduleCoreEntities}}.{{entityNameLower}}.{{entityName}};
+import {{packageGroupName}}.utils.AssertUtil;
+
+public class {{entityName}}Factory extends BaseEntity {
+    /**
+     * {{comment}} 생성
+     */
+    public static {{entityName}} create{{entityName}}({{entityName}}CreateCommand command) {
+        validateCreate{{entityName}}(command);
+        return {{entityName}}.builder()
+            {{#fields}}
+                .{{name}}(command.{{getter}}())
+            {{/fields}}
+                .build();
+    }
+
+    /**
+     * {{comment}} 수정
+     */
+    public static void update{{entityName}}({{entityName}} {{entityNameLower}}, {{entityName}}UpdateCommand command) {
+        validateUpdate{{entityName}}(command);
+        {{entityNameLower}}.update(
+        {{#fields}}
+                command.{{getter}}(){{^isLast}},{{/isLast}}
+        {{/fields}}
+        );
+    }
+
+    private static void validateCreate{{entityName}}({{entityName}}CreateCommand command) {
+        {{#fields}}
+        AssertUtil.notNull(command.{{getter}}(), "{{name}}");
+        {{/fields}}
+    }
+
+    private static void validateUpdate{{entityName}}({{entityName}}UpdateCommand command) {
+        {{#fields}}
+        AssertUtil.notNull(command.{{getter}}(), "{{name}}");
+        {{/fields}}
+    }
+}

@@ -1,6 +1,6 @@
 package com.soon83.codegenerator.strategy.validation;
 
-import com.soon83.codegenerator.util.GeneratorUtil;
+import com.soon83.codegenerator.GeneratorUtil;
 import jakarta.persistence.Id;
 
 import java.lang.reflect.Field;

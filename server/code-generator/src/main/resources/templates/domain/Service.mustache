@@ -1,0 +1,110 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreDomain}}.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.*;
+import {{packageGroupName}}.{{moduleCommonDtos}}.utils.Sortable;
+import {{packageGroupName}}.{{moduleCoreEntities}}.{{entityNameLower}}.{{entityName}};
+import {{packageGroupName}}.{{moduleCoreInfrastructure}}.{{entityNameLower}}.{{entityName}}Reader;
+import {{packageGroupName}}.{{moduleCoreInfrastructure}}.{{entityNameLower}}.{{entityName}}Store;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class {{entityName}}Service {
+    private final {{entityName}}DomainMapper {{entityNameLower}}DomainMapper;
+    private final {{entityName}}Store {{entityNameLower}}Store;
+    private final {{entityName}}Reader {{entityNameLower}}Reader;
+
+    /**
+     * {{comment}} 목록 조회 - 페이징
+     */
+    public Page<{{entityName}}Info> getPage{{entityName}}InfoList({{entityName}}SearchCondition searchCondition, Pageable pageable) {
+        return {{entityNameLower}}Reader.getPage{{entityName}}List(searchCondition, pageable)
+                .map({{entityNameLower}}DomainMapper::to{{entityName}}Info);
+    }
+
+    /**
+     * {{comment}} 목록 조회 - 전체
+     */
+    public List<{{entityName}}Info> getAll{{entityName}}InfoList({{entityName}}SearchCondition searchCondition, Sortable sortable) {
+        return {{entityNameLower}}Reader.getAll{{entityName}}List(searchCondition, sortable).stream()
+                .map({{entityNameLower}}DomainMapper::to{{entityName}}Info)
+                .toList();
+    }
+
+    /**
+     * {{comment}} 단건 조회
+     */
+    public {{entityName}}Info get{{entityName}}Info(Long {{entityNameLower}}Id) {
+        {{entityName}} {{entityNameLower}} = {{entityNameLower}}Reader.get{{entityName}}OrThrow({{entityNameLower}}Id);
+        return {{entityNameLower}}DomainMapper.to{{entityName}}Info({{entityNameLower}});
+    }
+
+    /**
+     * {{comment}} 단건 등록
+     */
+    @Transactional
+    public {{entityName}}Info create{{entityName}}Info({{entityName}}CreateCommand command) {
+        {{entityName}} {{entityNameLower}}Entity = {{entityName}}Factory.create{{entityName}}(command);
+        {{entityName}} created{{entityName}} = {{entityNameLower}}Store.create({{entityNameLower}}Entity);
+        return {{entityNameLower}}DomainMapper.to{{entityName}}Info(created{{entityName}});
+    }
+
+    /**
+     * {{comment}} 대량 등록
+     */
+    @Transactional
+    public List<{{entityName}}Info> createBulk{{entityName}}Info({{entityName}}BulkCreateCommand bulkCommand) {
+        return bulkCommand.getCommandList().stream()
+                .map(this::create{{entityName}}Info)
+                .toList();
+    }
+
+    /**
+     * {{comment}} 단건 수정
+     */
+    @Transactional
+    public {{entityName}}Info update{{entityName}}Info({{entityName}}UpdateCommand command) {
+        {{entityName}} {{entityNameLower}} = {{entityNameLower}}Reader.get{{entityName}}OrThrow(command.get{{entityName}}Id());
+        {{entityName}}Factory.update{{entityName}}({{entityNameLower}}, command);
+        return {{entityNameLower}}DomainMapper.to{{entityName}}Info({{entityNameLower}});
+    }
+
+    /**
+     * {{comment}} 대량 수정
+     */
+    @Transactional
+    public List<{{entityName}}Info> updateBulk{{entityName}}Info({{entityName}}BulkUpdateCommand bulkCommand) {
+        return bulkCommand.getCommandList().stream()
+                .map(this::update{{entityName}}Info)
+                .toList();
+    }
+
+    /**
+     * {{comment}} 단건 삭제
+     */
+    @Transactional
+    public void delete{{entityName}}Info({{entityName}}DeleteCommand command) {
+        {{entityName}} {{entityNameLower}} = {{entityNameLower}}Reader.get{{entityName}}OrNull(command.get{{entityName}}Id());
+        {{entityNameLower}}Store.delete({{entityNameLower}});
+    }
+
+    /**
+     * {{comment}} 대량 삭제
+     */
+    @Transactional
+    public void deleteBulk{{entityName}}Info({{entityName}}BulkDeleteCommand bulkCommand) {
+        bulkCommand.getCommandList().forEach(this::delete{{entityName}}Info);
+    }
+}

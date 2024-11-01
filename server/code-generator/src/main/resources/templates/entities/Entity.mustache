@@ -1,0 +1,17 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreEntities}}.{{entityNameLower}};
+
+public class {{entityName}} {
+    // TODO 아래의 메서드를 복사해서 {{entityName}} 엔티티 클래스에 넣어주세요
+    public void update(
+    {{#fields}}
+            {{type}} {{name}}{{^isLast}},{{/isLast}}
+    {{/fields}}
+    ) {
+    {{#fields}}
+        this.{{name}} = {{name}};
+    {{/fields}}
+    }
+}

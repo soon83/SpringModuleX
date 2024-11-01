@@ -1,7 +1,7 @@
-package com.soon83.codegenerator.util;
+package com.soon83.codegenerator;
 
-import com.soon83.codegenerator.ModuleConstants;
-import com.soon83.codegenerator.strategy.TemplateType;
+import com.soon83.codegenerator.settings.ModuleConstants;
+import com.soon83.codegenerator.settings.TemplateCondition;
 import com.soon83.codegenerator.strategy.field.FieldInclusionStrategy;
 import com.soon83.codegenerator.strategy.validation.ValidationStrategy;
 import jakarta.persistence.Entity;
@@ -17,11 +17,11 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class GeneratorUtil {
-    public static List<Map<String, Object>> getEntityFieldsForType(Class<?> entityClass, String classComment, TemplateType templateType, Set<String> imports) {
+    public static List<Map<String, Object>> getEntityFieldsForType(Class<?> entityClass, String classComment, TemplateCondition templateCondition, Set<String> imports) {
         List<Map<String, Object>> fields = new ArrayList<>();
 
-        FieldInclusionStrategy inclusionStrategy = templateType.getFieldInclusionStrategy();
-        ValidationStrategy validationStrategy = templateType.getValidationStrategy();
+        FieldInclusionStrategy inclusionStrategy = templateCondition.getFieldInclusionStrategy();
+        ValidationStrategy validationStrategy = templateCondition.getValidationStrategy();
 
         Field[] declaredFields = entityClass.getDeclaredFields();
         List<Field> includedFields = new ArrayList<>();
@@ -36,11 +36,15 @@ public class GeneratorUtil {
             Field field = includedFields.get(i);
             String fieldComment = GeneratorUtil.getComment(field).orElse("");
             List<Map<String, String>> validations = validationStrategy.validate(field, classComment, fieldComment, imports);
+            String capitalizedFieldName = GeneratorUtil.capitalize(field.getName());
+            String getter = (field.getType().equals(boolean.class) ? "is" : "get") + capitalizedFieldName;
 
             Map<String, Object> fieldInfo = new HashMap<>();
             fieldInfo.put("type", field.getType().getSimpleName());
             fieldInfo.put("name", field.getName());
             fieldInfo.put("capitalizedName", GeneratorUtil.capitalize(field.getName()));
+            fieldInfo.put("getter", getter);
+            fieldInfo.put("isLast", i == includedFields.size() - 1);
             fieldInfo.put("isEnum", field.getType().isEnum());
             fieldInfo.put("validations", validations);
 

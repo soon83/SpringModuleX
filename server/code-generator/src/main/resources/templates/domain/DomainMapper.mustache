@@ -1,0 +1,13 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreDomain}}.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.{{entityName}}Info;
+import {{packageGroupName}}.{{moduleCoreEntities}}.{{entityNameLower}}.{{entityName}};
+import org.mapstruct.Mapper;
+
+@Mapper(componentModel = "spring")
+public interface {{entityName}}DomainMapper {
+    {{entityName}}Info to{{entityName}}Info({{entityName}} {{entityNameLower}});
+}

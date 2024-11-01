@@ -1,4 +1,4 @@
-package com.soon83.codegenerator;
+package com.soon83.codegenerator.settings;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum TemplateFiles {
-    // Application
-    FACADE(ModuleConstants.MODULE_CORE_APPLICATION, "Facade"),
+    // Entities
+    Entity(ModuleConstants.MODULE_CORE_ENTITIES, "Entity"),
 
     // Interfaces
     CONTROLLER(ModuleConstants.MODULE_SERVER_INTERFACES, "Controller"),
@@ -20,6 +20,19 @@ public enum TemplateFiles {
     SEARCH_REQUEST(ModuleConstants.MODULE_SERVER_INTERFACES, "SearchRequest"),
     INFO_RESPONSE(ModuleConstants.MODULE_SERVER_INTERFACES, "InfoResponse"),
     INTERFACE_MAPPER(ModuleConstants.MODULE_SERVER_INTERFACES, "InterfaceMapper"),
+
+    // Application
+    FACADE(ModuleConstants.MODULE_CORE_APPLICATION, "Facade"),
+
+    // Domain
+    DOMAIN_MAPPER(ModuleConstants.MODULE_CORE_DOMAIN, "DomainMapper"),
+    FACTORY(ModuleConstants.MODULE_CORE_DOMAIN, "Factory"),
+    SERVICE(ModuleConstants.MODULE_CORE_DOMAIN, "Service"),
+
+    // Infrastructure
+    READER(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "Reader"),
+    STORE(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "Store"),
+    REPOSITORY(ModuleConstants.MODULE_CORE_INFRASTRUCTURE, "Repository"),
 
     // Domain Dto
     BULK_CREATE_COMMAND(ModuleConstants.MODULE_COMMON_DTOS, "BulkCreateCommand"),

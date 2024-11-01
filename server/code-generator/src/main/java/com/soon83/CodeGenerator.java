@@ -3,10 +3,10 @@ package com.soon83;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import com.soon83.codegenerator.ModuleConstants;
-import com.soon83.codegenerator.TemplateFiles;
-import com.soon83.codegenerator.strategy.TemplateType;
-import com.soon83.codegenerator.util.GeneratorUtil;
+import com.soon83.codegenerator.GeneratorUtil;
+import com.soon83.codegenerator.settings.ModuleConstants;
+import com.soon83.codegenerator.settings.TemplateCondition;
+import com.soon83.codegenerator.settings.TemplateFiles;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
@@ -38,11 +38,11 @@ public class CodeGenerator {
 
                 // 템플릿에 엔티티 클래스의 필드 와 Validation 및 Import 넣기
                 for (String template : templates) {
-                    TemplateType templateType = TemplateType.fromTemplate(template);
-                    System.out.println("Processing template as type: " + templateType);
+                    TemplateCondition templateCondition = TemplateCondition.fromTemplate(template);
+                    System.out.println("Processing template as type: " + templateCondition);
 
                     Set<String> imports = new TreeSet<>();
-                    List<Map<String, Object>> fields = GeneratorUtil.getEntityFieldsForType(entityClass, comment, templateType, imports);
+                    List<Map<String, Object>> fields = GeneratorUtil.getEntityFieldsForType(entityClass, comment, templateCondition, imports);
                     Set<String> sortedImports = GeneratorUtil.getUsedImports(entityClass, fields, imports);
 
                     // 파일 생성
@@ -70,6 +70,15 @@ public class CodeGenerator {
     ) throws IOException {
         MustacheFactory mf = new DefaultMustacheFactory("templates/");
         Mustache mustache = mf.compile(templateName);
+
+        fields.forEach(field -> {
+            if (!field.containsKey("getter")) {
+                String fieldName = (String) field.get("name");
+                String capitalizedFieldName = GeneratorUtil.capitalize(fieldName);
+                String getter = (field.get("type").equals("boolean") ? "is" : "get") + capitalizedFieldName;
+                field.put("getter", getter);
+            }
+        });
 
         Map<String, Object> context = new HashMap<>();
         context.put("entityName", entityName);
