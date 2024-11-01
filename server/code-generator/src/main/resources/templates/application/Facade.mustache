@@ -1,0 +1,85 @@
+{{#skipFormatter}}
+    <!-- @formatter:off -->
+{{/skipFormatter}}
+package {{packageGroupName}}.{{moduleCoreApplication}}.{{entityNameLower}};
+
+import {{packageGroupName}}.{{moduleCoreDomain}}.{{entityNameLower}}.{{entityName}}Service;
+import {{packageGroupName}}.{{moduleCommonDtos}}.{{entityNameLower}}.*;
+import {{packageGroupName}}.{{moduleCommonDtos}}.utils.Sortable;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class {{entityName}}Facade {
+    private final {{entityName}}Service {{entityNameLower}}Service;
+
+    /**
+     * {{comment}} 목록 조회 - 페이징
+     */
+    public Page<{{entityName}}Info> searchPage{{entityName}}InfoList({{entityName}}SearchCondition searchCondition, Pageable pageable) {
+        return {{entityNameLower}}Service.getPage{{entityName}}InfoList(searchCondition, pageable);
+    }
+
+    /**
+     * {{comment}} 목록 조회 - 전체
+     */
+    public List<{{entityName}}Info> searchAll{{entityName}}InfoList({{entityName}}SearchCondition searchCondition, Sortable sortable) {
+        return {{entityNameLower}}Service.getAll{{entityName}}InfoList(searchCondition, sortable);
+    }
+
+    /**
+     * {{comment}} 단건 조회
+     */
+    public {{entityName}}Info search{{entityName}}Info(Long {{entityNameLower}}Id) {
+        return {{entityNameLower}}Service.get{{entityName}}Info({{entityNameLower}}Id);
+    }
+
+    /**
+     * {{comment}} 단건 등록
+     */
+    public {{entityName}}Info register{{entityName}}Info({{entityName}}CreateCommand command) {
+        return {{entityNameLower}}Service.create{{entityName}}Info(command);
+    }
+
+    /**
+     * {{comment}} 대량 등록
+     */
+    public List<{{entityName}}Info> registerBulk{{entityName}}Info({{entityName}}BulkCreateCommand bulkCommand) {
+        return {{entityNameLower}}Service.createBulk{{entityName}}Info(bulkCommand);
+    }
+
+    /**
+     * {{comment}} 단건 수정
+     */
+    public {{entityName}}Info edit{{entityName}}Info({{entityName}}UpdateCommand command) {
+        return {{entityNameLower}}Service.update{{entityName}}Info(command);
+    }
+
+    /**
+     * {{comment}} 대량 수정
+     */
+    public List<{{entityName}}Info> editBulk{{entityName}}Info({{entityName}}BulkUpdateCommand bulkCommand) {
+        return {{entityNameLower}}Service.updateBulk{{entityName}}Info(bulkCommand);
+    }
+
+    /**
+     * {{comment}} 단건 삭제
+     */
+    public void remove{{entityName}}Info({{entityName}}DeleteCommand command) {
+        {{entityNameLower}}Service.delete{{entityName}}Info(command);
+    }
+
+    /**
+     * {{comment}} 대량 삭제
+     */
+    public void removeBulk{{entityName}}Info({{entityName}}BulkDeleteCommand bulkCommand) {
+        {{entityNameLower}}Service.deleteBulk{{entityName}}Info(bulkCommand);
+    }
+}

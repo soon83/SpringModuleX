@@ -1,5 +1,6 @@
 package com.soon83.codegenerator.util;
 
+import com.soon83.codegenerator.ModuleConstants;
 import com.soon83.codegenerator.strategy.TemplateType;
 import com.soon83.codegenerator.strategy.field.FieldInclusionStrategy;
 import com.soon83.codegenerator.strategy.validation.ValidationStrategy;
@@ -14,8 +15,6 @@ import java.lang.reflect.Field;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-
-import static com.soon83.CodeGenerator.PACKAGE_GROUP_NAME;
 
 public class GeneratorUtil {
     public static List<Map<String, Object>> getEntityFieldsForType(Class<?> entityClass, String classComment, TemplateType templateType, Set<String> imports) {
@@ -111,7 +110,11 @@ public class GeneratorUtil {
     public static Path getOutputPathForTemplate(String templateName, String entityName) {
         String basePath = "build/generated";
         String templateModule = templateName.split("/")[0];
-        String packagePath = String.format("%s.%s.%s", PACKAGE_GROUP_NAME, templateModule, entityName.toLowerCase());
+        String packagePath = String.format("%s.%s.%s",
+                ModuleConstants.PACKAGE_GROUP_NAME,
+                templateModule,
+                entityName.toLowerCase()
+        );
         return Paths.get(basePath, packagePath.replace(".", "/"));
     }
 }
