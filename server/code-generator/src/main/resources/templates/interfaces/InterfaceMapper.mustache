@@ -17,7 +17,7 @@ public interface {{entityName}}InterfaceMapper {
 
     {{entityName}}UpdateCommand to{{entityName}}UpdateCommand({{entityName}}EditRequest request);
 
-    {{entityName}}DeleteCommand to{{entityName}}DeleteCommand({{entityName}}RemoveRequest request);
+    {{entityName}}DeleteCommand to{{entityName}}DeleteCommand(Long {{entityNameLower}}Id);
 
     @Mapping(source = "requestList", target = "commandList")
     {{entityName}}BulkCreateCommand to{{entityName}}BulkCreateCommand({{entityName}}BulkRegisterRequest request);

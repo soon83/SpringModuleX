@@ -126,9 +126,9 @@ public class {{entityName}}Controller {
      * {{comment}} 단건 삭제
      */
     @DeleteMapping("/{{openCurlyBraces}}{{entityNameLower}}Id{{closeCurlyBraces}}")
-    public void remove{{entityName}}Info(@ModelAttribute @Valid {{entityName}}RemoveRequest request) {
-        log.debug("# remove{{entityName}}Info # request: {}", request);
-        {{entityName}}DeleteCommand command = {{entityNameLower}}InterfaceMapper.to{{entityName}}DeleteCommand(request);
+    public void remove{{entityName}}Info(@PathVariable Long {{entityNameLower}}Id) {
+        log.debug("# remove{{entityName}}Info # {{entityNameLower}}Id: {}", {{entityNameLower}}Id);
+        {{entityName}}DeleteCommand command = {{entityNameLower}}InterfaceMapper.to{{entityName}}DeleteCommand({{entityNameLower}}Id);
         {{entityNameLower}}Facade.remove{{entityName}}Info(command);
     }
 

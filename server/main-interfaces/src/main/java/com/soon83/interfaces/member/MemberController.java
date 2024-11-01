@@ -123,9 +123,9 @@ public class MemberController {
      * 회원 단건 삭제
      */
     @DeleteMapping("/{memberId}")
-    public void removeMemberInfo(@ModelAttribute @Valid MemberRemoveRequest request) {
-        log.debug("# removeMemberInfo # request: {}", request);
-        MemberDeleteCommand command = memberInterfaceMapper.toMemberDeleteCommand(request);
+    public void removeMemberInfo(@PathVariable Long memberId) {
+        log.debug("# removeMemberInfo # memberId: {}", memberId);
+        MemberDeleteCommand command = memberInterfaceMapper.toMemberDeleteCommand(memberId);
         memberFacade.removeMemberInfo(command);
     }
 

@@ -14,7 +14,7 @@ public interface MemberInterfaceMapper {
 
     MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
 
-    MemberDeleteCommand toMemberDeleteCommand(MemberRemoveRequest request);
+    MemberDeleteCommand toMemberDeleteCommand(Long memberId);
 
     @Mapping(source = "requestList", target = "commandList")
     MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
