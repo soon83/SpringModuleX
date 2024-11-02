@@ -52,7 +52,7 @@ logging:
 server:
   port: 10001
 datasource:
-  url: localhost:15432
+  url: localhost
 
 spring:
   config:
@@ -67,7 +67,7 @@ file-path:
 server:
   port: 10001
 datasource:
-  url: localhost:15432
+  url: localhost
 
 spring:
   config:
@@ -82,7 +82,7 @@ file-path:
 server:
   port: 10002
 datasource:
-  url: localhost:15432
+  url: localhost
 
 spring:
   config:
@@ -97,7 +97,7 @@ file-path:
 server:
   port: 10003
 datasource:
-  url: localhost:15432
+  url: localhost
 
 spring:
   config:

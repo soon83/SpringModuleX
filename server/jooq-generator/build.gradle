@@ -7,7 +7,6 @@ dependencies {
     // runtimeOnly libs.h2
     // runtimeOnly libs.mariadb.java.client
     runtimeOnly libs.postgresql
-    implementation libs.p6spy
 }
 
 tasks.register('_GENERATE_JOOQ', JavaExec) {
@@ -16,4 +15,4 @@ tasks.register('_GENERATE_JOOQ', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
 }
 
-tasks._GENERATE_JOOQ.finalizedBy project(':core-entities').tasks.clean
+//tasks._GENERATE_JOOQ.finalizedBy project(':core-entities').tasks.clean

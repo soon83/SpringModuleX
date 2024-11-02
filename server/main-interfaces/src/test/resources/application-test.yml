@@ -30,7 +30,7 @@ spring:
 server:
   port: 0
 datasource:
-  url: localhost:15432
+  url: localhost
 
 spring:
   config:

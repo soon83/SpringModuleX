@@ -10,7 +10,7 @@ spring:
     web-application-type: none
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:15432/spring_module_x_${spring.profiles.active}
+    url: jdbc:postgresql://localhost/spring_module_x_${spring.profiles.active}
     username: spring_module_x_${spring.profiles.active}
     password: spring_module_x_${spring.profiles.active}!@34
   jpa:
