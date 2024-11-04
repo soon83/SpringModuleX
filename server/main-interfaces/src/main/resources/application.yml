@@ -47,6 +47,29 @@ logging:
     name: ${spring.config.activate.on-profile}
   config: classpath:logback-spring.xml
 
+keycloak:
+  security-constraints:
+    - authRoles:
+        - admin
+      securityCollections:
+        - patterns:
+            - /api/user-list/*
+    - authRoles:
+        - manager
+      securityCollections:
+        - patterns:
+            - /api/user-list/paging
+            - /api/user-list/all
+            - /api/user-list/1
+            - /api/user-list/1
+            - /api/user-list/bulk
+            - /api/user-list/bulk
+            - /api/user-list/bulk-delete
+    - authRoles:
+        - user
+      securityCollections:
+        - patterns:
+            - /api/user-list/1
 ---
 # LOCAL
 server:
@@ -61,6 +84,13 @@ spring:
 
 file-path:
   application-root: /Users/ds/Downloads/springboot/${application.title}
+
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: ${application.title} # spring-module-x-local
+  resource: ${application.title} # spring-module-x -> Client ID
+  public-client: true
+  use-resource-role-mappings: true
 
 ---
 # TEST
