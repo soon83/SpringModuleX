@@ -28,11 +28,10 @@ public class MemberRepositoryQuerydslImpl extends CustomQuerydslRepositorySuppor
     public Page<Member> getPageMemberList(MemberSearchCondition searchCond, Pageable pageable) {
         return applyPagination(pageable, queryFactory -> queryFactory
                 .selectFrom(member)
-                // TODO where
-                /*.where(
+                .where(
                         like(member.loginId, searchCond.getLoginId()),
                         like(member.name, searchCond.getName())
-                )*/
+                )
         );
     }
 
