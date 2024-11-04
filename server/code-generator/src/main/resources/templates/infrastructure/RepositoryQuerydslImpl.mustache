@@ -31,10 +31,8 @@ public class {{entityName}}RepositoryQuerydslImpl extends CustomQuerydslReposito
     public Page<{{entityName}}> getPage{{entityName}}List({{entityName}}SearchCondition searchCond, Pageable pageable) {
         return applyPagination(pageable, queryFactory -> queryFactory
                 .selectFrom({{entityNameLower}})
-                .where(
-                        like({{entityNameLower}}.loginId, searchCond.getLoginId()),
-                        like({{entityNameLower}}.name, searchCond.getName())
-                )
+                // TODO where
+                /*.where()*/
         );
     }
 
@@ -42,10 +40,8 @@ public class {{entityName}}RepositoryQuerydslImpl extends CustomQuerydslReposito
     public List<{{entityName}}> getAll{{entityName}}List({{entityName}}SearchCondition searchCond, Sortable sortable) {
         return queryFactory
                 .selectFrom({{entityNameLower}})
-                .where(
-                        like({{entityNameLower}}.loginId, searchCond.getLoginId()),
-                        like({{entityNameLower}}.name, searchCond.getName())
-                )
+                // TODO where
+                /*.where()*/
                 .limit(sortable.getLimit())
                 .fetch();
     }
@@ -56,9 +52,7 @@ public class {{entityName}}RepositoryQuerydslImpl extends CustomQuerydslReposito
 
         return Optional.ofNullable(queryFactory
                 .selectFrom({{entityNameLower}})
-                .where(
-                        eq({{entityNameLower}}.{{entityNameLower}}Id, {{entityNameLower}}Id)
-                )
+                .where(eq({{entityNameLower}}.{{entityNameLower}}Id, {{entityNameLower}}Id))
                 .fetchOne());
     }
 }
