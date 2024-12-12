@@ -50,7 +50,7 @@ logging:
 ---
 # LOCAL
 server:
-  port: 10001
+  port: 12001
 datasource:
   url: localhost
 
@@ -65,7 +65,7 @@ file-path:
 ---
 # TEST
 server:
-  port: 10001
+  port: 12001
 datasource:
   url: localhost
 
@@ -80,7 +80,7 @@ file-path:
 ---
 # STAGING
 server:
-  port: 10002
+  port: 22001
 datasource:
   url: localhost
 
@@ -95,7 +95,7 @@ file-path:
 ---
 # PROD
 server:
-  port: 10003
+  port: 32001
 datasource:
   url: localhost
 

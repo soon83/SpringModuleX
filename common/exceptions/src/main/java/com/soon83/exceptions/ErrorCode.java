@@ -25,7 +25,10 @@ public enum ErrorCode {
 
     // [회원]
     NOT_FOUND_MEMBER(404, "MEMBER-001", "존재하지 않는 회원 입니다."),
-    ;
+
+    // [카테고리 그룹]
+
+    NOT_FOUND_CATEGORY_GROUP(404, "CATEGORY_GROUP-001", "존재하지 않는 카테고리 그룹 입니다.");
 
     private final int status;
     private final String code;
