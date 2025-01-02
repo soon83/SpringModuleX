@@ -9,9 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static com.soon83.Tables.MEMBER;
-import static com.soon83.infrastructure.utils.JooqUtil.eq;
-
 @Repository
 @RequiredArgsConstructor
 public class MemberRepositoryJooqImpl implements MemberRepositoryJooq {
@@ -19,20 +16,22 @@ public class MemberRepositoryJooqImpl implements MemberRepositoryJooq {
 
     @Override
     public List<MemberProjection> getAllMemberProjectionList() {
-        return dsl
+        return null;
+        /*return dsl
                 .selectFrom(MEMBER)
-                .fetchInto(MemberProjection.class);
+                .fetchInto(MemberProjection.class);*/
     }
 
     public Optional<MemberProjection> getMemberProjection(Long memberId) {
         AssertUtil.notNull(memberId, "memberId");
 
-        return dsl
+        return Optional.empty();
+        /*return dsl
                 .select(MEMBER.fields())
                 .from(MEMBER)
                 .where(
                         eq(MEMBER.MEMBER_ID, memberId)
                 )
-                .fetchOptionalInto(MemberProjection.class);
+                .fetchOptionalInto(MemberProjection.class);*/
     }
 }
