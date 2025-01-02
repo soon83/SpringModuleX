@@ -111,14 +111,13 @@ public class GeneratorUtil {
         }
     }
 
-    public static Path getOutputPathForTemplate(String templateName, String entityName) {
+    public static Path getOutputPathForTemplate(String templateName, Class<?> entityClass) {
         String basePath = "build/generated";
         String templateModule = templateName.split("/")[0];
-        String packagePath = String.format("%s.%s.%s",
-                ModuleConstants.PACKAGE_GROUP_NAME.getValue(),
-                templateModule,
-                entityName.toLowerCase()
-        );
-        return Paths.get(basePath, packagePath.replace(".", "/"));
+        String packagePath = entityClass.getPackageName()
+                .replace(ModuleConstants.PACKAGE_GROUP_NAME.getValue() + ".", "") // 그룹 이름 제거
+                .replace(ModuleConstants.MODULE_CORE_ENTITIES.getValue() + ".", "") // 모듈 이름 제거
+                .replace(".", "/");
+        return Paths.get(basePath, templateModule, packagePath);
     }
 }

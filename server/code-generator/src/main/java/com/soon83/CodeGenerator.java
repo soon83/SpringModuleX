@@ -46,7 +46,7 @@ public class CodeGenerator {
                     Set<String> sortedImports = GeneratorUtil.getUsedImports(entityClass, fields, imports);
 
                     // 파일 생성
-                    Path outputPath = GeneratorUtil.getOutputPathForTemplate(template, entityName);
+                    Path outputPath = GeneratorUtil.getOutputPathForTemplate(template, entityClass);
                     generateCodeFromTemplate(template, outputPath, entityName, comment, fields, sortedImports);
                 }
             }
