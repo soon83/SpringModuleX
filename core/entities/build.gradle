@@ -2,17 +2,6 @@ import nu.studer.gradle.jooq.JooqEdition
 
 apply plugin: 'nu.studer.jooq'
 
-def activeProfile = project.hasProperty('profile') ? project.getProperty('profile') : 'generate'
-println "Active profile: ${activeProfile}"
-
-def dbSchema = project.findProperty("dbSchema_${activeProfile}")
-def dbDriver = project.findProperty("dbDriver")
-//def dbParameters = project.findProperty("dbParameters") // postgresql 에서는 사용 안함
-//def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema + dbParameters
-def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema
-def dbUser = project.findProperty("dbUser_${activeProfile}")
-def dbPassword = project.findProperty("dbPassword_${activeProfile}")
-def packageGroup = project.findProperty("packageGroup")
 dependencies {
     // common
     implementation project(':common-dtos')
@@ -23,8 +12,8 @@ dependencies {
     implementation libs.spring.boot.starter.data.jpa
 
     // jooq
-    // jooqGenerator libs.mariadb.java.client
-    jooqGenerator libs.postgresql
+    jooqGenerator libs.mariadb.java.client
+    //jooqGenerator libs.postgresql
     jooqGenerator libs.logback.classic
 
     // querydsl
@@ -34,13 +23,24 @@ dependencies {
     annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 }
 
+def activeProfile = project.hasProperty('profile') ? project.getProperty('profile') : 'generate'
+println "Active profile: ${activeProfile}"
+
+def dbSchema = project.findProperty("dbSchema_${activeProfile}")
+def dbDriver = project.findProperty("dbDriver")
+def dbParameters = project.findProperty("dbParameters") // postgresql 에서는 사용 안함
+def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema + dbParameters
+//def dbUrl = project.findProperty("dbUrl_${activeProfile}") + "/" + dbSchema
+def dbUser = project.findProperty("dbUser_${activeProfile}")
+def dbPassword = project.findProperty("dbPassword_${activeProfile}")
+def packageGroup = project.findProperty("packageGroup")
+
 jooq {
     version = '3.19.11'
     edition = JooqEdition.OSS
 
     configurations {
         main {
-            generateSchemaSourceOnCompilation = true
             generationTool {
                 jdbc {
                     driver = dbDriver
@@ -51,16 +51,18 @@ jooq {
                 generator {
                     name = 'org.jooq.codegen.DefaultGenerator'
                     database {
-                        // name = 'org.jooq.meta.mariadb.MariaDBDatabase'
-                        name = 'org.jooq.meta.postgres.PostgresDatabase'
-                        // inputSchema = dbSchema // mariadb 에서는 이렇게 설정
-                        inputSchema = 'public' // postgres 에서는 이렇게 설정
+                        name = 'org.jooq.meta.mariadb.MariaDBDatabase'
+                        inputSchema = dbSchema // mariadb 에서는 이렇게 설정
+                        //name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        //inputSchema = 'public' // postgres 에서는 이렇게 설정
+                        includes = '.*' // 모든 테이블 포함
+                        excludes = '' // 제외할 테이블 없음
                     }
                     generate {
-                        deprecated = false // @Deprecated 주석 생성 안함
-                        records = true // 레코드 객체 생성
-                        immutablePojos = true // Immutable POJOs 생성
-                        fluentSetters = true // Fluent Setters 사용
+                        daos = true // DAO 생성
+                        pojos = true // POJO 생성
+                        fluentSetters = true // Setter 메서드 체이닝 가능하도록 설정
+                        javaTimeTypes = true // java.time 패키지 사용
                     }
                     target {
                         packageName = packageGroup
@@ -73,12 +75,4 @@ jooq {
             }
         }
     }
-}
-
-tasks.named('generateJooq').configure {
-    allInputsDeclared = true // Incremental build를 위한 설정
-}
-
-tasks.named('compileJava').configure {
-    dependsOn tasks.named('generateJooq') // 컴파일 전 jooq 소스 생성
 }

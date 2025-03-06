@@ -53,7 +53,7 @@ public class MemberService {
      */
     @Transactional
     public MemberInfo createMemberInfo(MemberCreateCommand command) {
-        Member memberEntity = MemberFactory.createMember(command);
+        Member memberEntity = memberDomainMapper.toMember(command);
         Member createdMember = memberStore.create(memberEntity);
         return memberDomainMapper.toMemberInfo(createdMember);
     }
@@ -74,7 +74,7 @@ public class MemberService {
     @Transactional
     public MemberInfo updateMemberInfo(MemberUpdateCommand command) {
         Member member = memberReader.getMemberOrThrow(command.getMemberId());
-        MemberFactory.updateMember(member, command);
+        memberDomainMapper.updateMember(member, command);
         return memberDomainMapper.toMemberInfo(member);
     }
 

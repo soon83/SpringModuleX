@@ -8,12 +8,10 @@ spring:
   application:
     name: main-server
   datasource:
-    #    driver-class-name: org.mariadb.jdbc.Driver
-    #    url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
-    #    username: spring_module_x_${spring.config.activate.on-profile}
-    #    password: spring_module_x_${spring.config.activate.on-profile}!@34
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}
+    #driver-class-name: org.postgresql.Driver
+    #url: jdbc:postgresql://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://${datasource.url}/spring_module_x_${spring.config.activate.on-profile}?serverTimezone=UTC&characterEncoding=UTF-8
     username: spring_module_x_${spring.config.activate.on-profile}
     password: spring_module_x_${spring.config.activate.on-profile}!@34
   data:
@@ -23,13 +21,14 @@ spring:
         one-indexed-parameters: true
   jpa:
     open-in-view: false
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    #database: postgresql
+    #database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
-        default_schema: public
+        #default_schema: public
         show_sql: false
         format_sql: false
         highlight_sql: true

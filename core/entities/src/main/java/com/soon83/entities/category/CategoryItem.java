@@ -30,8 +30,4 @@ public class CategoryItem extends BaseEntity {
     @Column(name = "description", nullable = false, length = 63)
     @Comment("설명")
     private String description;
-
-    @Column(name = "icon", nullable = false, length = 511)
-    @Comment("아이콘")
-    private String icon;
 }

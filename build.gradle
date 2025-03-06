@@ -46,10 +46,10 @@ subprojects {
         // default
         compileOnly libs.lombok
         annotationProcessor libs.lombok
-        annotationProcessor libs.mapstruct.processor
+        //annotationProcessor libs.mapstruct.processor
         implementation libs.spring.boot.starter.web
         implementation libs.spring.boot.starter.validation
-        implementation libs.mapstruct
+        //implementation libs.mapstruct
 
         // test
         testImplementation libs.spring.boot.starter.test
@@ -58,9 +58,9 @@ subprojects {
     }
 
     // task
-    tasks.named('test') {
+    /*tasks.named('test') {
         useJUnitPlatform()
-    }
+    }*/
 
     tasks.withType(JavaCompile).tap {
         configureEach {

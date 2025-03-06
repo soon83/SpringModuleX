@@ -11,5 +11,4 @@ public class CategoryGroupCreateCommand {
     private final Integer ordering;
     private final String name;
     private final String description;
-    private final String icon;
 }

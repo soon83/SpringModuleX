@@ -1,27 +1,70 @@
 package com.soon83.interfaces.main.category;
 
 import com.soon83.dtos.category.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface CategoryGroupInterfaceMapper {
-    CategoryGroupSearchCondition toCategoryGroupSearchCondition(CategoryGroupSearchRequest request);
+import java.util.List;
 
-    CategoryGroupInfoResponse toCategoryGroupInfoResponse(CategoryGroupInfo info);
+@Component
+public class CategoryGroupInterfaceMapper {
+    public CategoryGroupSearchCondition toCategoryGroupSearchCondition(CategoryGroupSearchRequest request) {
+        return new CategoryGroupSearchCondition(
+                request.getCategoryGroupId(),
+                request.getOrdering(),
+                request.getName(),
+                request.getDescription()
+        );
+    }
 
-    CategoryGroupCreateCommand toCategoryGroupCreateCommand(CategoryGroupRegisterRequest request);
+    public CategoryGroupInfoResponse toCategoryGroupInfoResponse(CategoryGroupInfo categoryGroupInfo) {
+        return new CategoryGroupInfoResponse(
+                categoryGroupInfo.getCategoryGroupId(),
+                categoryGroupInfo.getOrdering(),
+                categoryGroupInfo.getName(),
+                categoryGroupInfo.getDescription()
+        );
+    }
 
-    CategoryGroupUpdateCommand toCategoryGroupUpdateCommand(CategoryGroupEditRequest request);
+    public CategoryGroupCreateCommand toCategoryGroupCreateCommand(CategoryGroupRegisterRequest request) {
+        return new CategoryGroupCreateCommand(
+                request.getOrdering(),
+                request.getName(),
+                request.getDescription()
+        );
+    }
 
-    CategoryGroupDeleteCommand toCategoryGroupDeleteCommand(Long categoryGroupId);
+    public CategoryGroupBulkCreateCommand toCategoryGroupBulkCreateCommand(CategoryGroupBulkRegisterRequest request) {
+        List<CategoryGroupCreateCommand> commandList = request.getRequestList().stream()
+                .map(this::toCategoryGroupCreateCommand)
+                .toList();
+        return new CategoryGroupBulkCreateCommand(commandList);
+    }
 
-    @Mapping(source = "requestList", target = "commandList")
-    CategoryGroupBulkCreateCommand toCategoryGroupBulkCreateCommand(CategoryGroupBulkRegisterRequest request);
+    public CategoryGroupUpdateCommand toCategoryGroupUpdateCommand(CategoryGroupEditRequest request) {
+        return new CategoryGroupUpdateCommand(
+                request.getCategoryGroupId(),
+                request.getOrdering(),
+                request.getName(),
+                request.getDescription()
+        );
+    }
 
-    @Mapping(source = "requestList", target = "commandList")
-    CategoryGroupBulkUpdateCommand toCategoryGroupBulkUpdateCommand(CategoryGroupBulkEditRequest request);
+    public CategoryGroupBulkUpdateCommand toCategoryGroupBulkUpdateCommand(CategoryGroupBulkEditRequest request) {
+        List<CategoryGroupUpdateCommand> commandList = request.getRequestList().stream()
+                .map(this::toCategoryGroupUpdateCommand)
+                .toList();
+        return new CategoryGroupBulkUpdateCommand(commandList);
+    }
 
-    @Mapping(source = "requestList", target = "commandList")
-    CategoryGroupBulkDeleteCommand toCategoryGroupBulkDeleteCommand(CategoryGroupBulkRemoveRequest request);
+    public CategoryGroupDeleteCommand toCategoryGroupDeleteCommand(Long categoryGroupId) {
+        return new CategoryGroupDeleteCommand(categoryGroupId);
+    }
+
+    public CategoryGroupBulkDeleteCommand toCategoryGroupBulkDeleteCommand(CategoryGroupBulkRemoveRequest request) {
+        List<CategoryGroupDeleteCommand> commandList = request.getRequestList().stream()
+                .map(CategoryGroupRemoveRequest::getCategoryGroupId)
+                .map(this::toCategoryGroupDeleteCommand)
+                .toList();
+        return new CategoryGroupBulkDeleteCommand(commandList);
+    }
 }

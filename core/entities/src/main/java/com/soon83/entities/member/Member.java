@@ -2,6 +2,7 @@ package com.soon83.entities.member;
 
 import com.soon83.dtos.enums.MemberRole;
 import com.soon83.entities.BaseEntity;
+import com.soon83.utils.AssertUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -48,6 +49,26 @@ public class Member extends BaseEntity {
     @Comment("유형")
     private MemberRole role;
 
+    public Member(
+            String loginId,
+            String password,
+            String name,
+            String email,
+            MemberRole role
+    ) {
+        AssertUtil.notNull(loginId, "loginId");
+        AssertUtil.notNull(password, "password");
+        AssertUtil.notNull(name, "name");
+        AssertUtil.notNull(email, "email");
+        AssertUtil.notNull(role, "role");
+
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.role = role;
+    }
+
     public void update(
             String loginId,
             String password,
@@ -55,6 +76,12 @@ public class Member extends BaseEntity {
             String email,
             MemberRole role
     ) {
+        AssertUtil.notNull(loginId, "loginId");
+        AssertUtil.notNull(password, "password");
+        AssertUtil.notNull(name, "name");
+        AssertUtil.notNull(email, "email");
+        AssertUtil.notNull(role, "role");
+
         this.loginId = loginId;
         this.password = password;
         this.name = name;

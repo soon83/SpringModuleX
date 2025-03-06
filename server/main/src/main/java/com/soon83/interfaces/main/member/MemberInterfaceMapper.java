@@ -1,27 +1,79 @@
 package com.soon83.interfaces.main.member;
 
 import com.soon83.dtos.member.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface MemberInterfaceMapper {
-    MemberSearchCondition toMemberSearchCondition(MemberSearchRequest request);
+import java.util.List;
 
-    MemberInfoResponse toMemberInfoResponse(MemberInfo info);
+@Component
+public class MemberInterfaceMapper {
 
-    MemberCreateCommand toMemberCreateCommand(MemberRegisterRequest request);
+    public MemberSearchCondition toMemberSearchCondition(MemberSearchRequest request) {
+        return new MemberSearchCondition(
+                request.getMemberId(),
+                request.getLoginId(),
+                request.getPassword(),
+                request.getName(),
+                request.getEmail(),
+                request.getRole()
+        );
+    }
 
-    MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request);
+    public MemberInfoResponse toMemberInfoResponse(MemberInfo memberInfo) {
+        return new MemberInfoResponse(
+                memberInfo.getMemberId(),
+                memberInfo.getLoginId(),
+                memberInfo.getPassword(),
+                memberInfo.getName(),
+                memberInfo.getEmail(),
+                memberInfo.getRole()
+        );
+    }
 
-    MemberDeleteCommand toMemberDeleteCommand(Long memberId);
+    public MemberCreateCommand toMemberCreateCommand(MemberRegisterRequest request) {
+        return new MemberCreateCommand(
+                request.getLoginId(),
+                request.getPassword(),
+                request.getName(),
+                request.getEmail(),
+                request.getRole()
+        );
+    }
 
-    @Mapping(source = "requestList", target = "commandList")
-    MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request);
+    public MemberBulkCreateCommand toMemberBulkCreateCommand(MemberBulkRegisterRequest request) {
+        List<MemberCreateCommand> commandList = request.getRequestList().stream()
+                .map(this::toMemberCreateCommand)
+                .toList();
+        return new MemberBulkCreateCommand(commandList);
+    }
 
-    @Mapping(source = "requestList", target = "commandList")
-    MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request);
+    public MemberUpdateCommand toMemberUpdateCommand(MemberEditRequest request) {
+        return new MemberUpdateCommand(
+                request.getMemberId(),
+                request.getLoginId(),
+                request.getPassword(),
+                request.getName(),
+                request.getEmail(),
+                request.getRole()
+        );
+    }
 
-    @Mapping(source = "requestList", target = "commandList")
-    MemberBulkDeleteCommand toMemberBulkDeleteCommand(MemberBulkRemoveRequest request);
+    public MemberBulkUpdateCommand toMemberBulkUpdateCommand(MemberBulkEditRequest request) {
+        List<MemberUpdateCommand> commandList = request.getRequestList().stream()
+                .map(this::toMemberUpdateCommand)
+                .toList();
+        return new MemberBulkUpdateCommand(commandList);
+    }
+
+    public MemberDeleteCommand toMemberDeleteCommand(Long memberId) {
+        return new MemberDeleteCommand(memberId);
+    }
+
+    public MemberBulkDeleteCommand toMemberBulkDeleteCommand(MemberBulkRemoveRequest request) {
+        List<MemberDeleteCommand> commandList = request.getRequestList().stream()
+                .map(MemberRemoveRequest::getMemberId)
+                .map(this::toMemberDeleteCommand)
+                .toList();
+        return new MemberBulkDeleteCommand(commandList);
+    }
 }

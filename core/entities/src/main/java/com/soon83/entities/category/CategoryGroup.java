@@ -1,6 +1,7 @@
 package com.soon83.entities.category;
 
 import com.soon83.entities.BaseEntity;
+import com.soon83.utils.AssertUtil;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Comment;
@@ -31,19 +32,31 @@ public class CategoryGroup extends BaseEntity {
     @Comment("설명")
     private String description;
 
-    @Column(name = "icon", nullable = false, length = 511)
-    @Comment("아이콘")
-    private String icon;
+    public CategoryGroup(
+            Integer ordering,
+            String name,
+            String description
+    ) {
+        AssertUtil.notNull(ordering, "ordering");
+        AssertUtil.notNull(name, "name");
+        AssertUtil.notNull(description, "description");
+
+        this.ordering = ordering;
+        this.name = name;
+        this.description = description;
+    }
 
     public void update(
             Integer ordering,
             String name,
-            String description,
-            String icon
+            String description
     ) {
+        AssertUtil.notNull(ordering, "ordering");
+        AssertUtil.notNull(name, "name");
+        AssertUtil.notNull(description, "description");
+
         this.ordering = ordering;
         this.name = name;
         this.description = description;
-        this.icon = icon;
     }
 }

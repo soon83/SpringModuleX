@@ -15,7 +15,4 @@ public class CategoryGroupInfoResponse {
     private String name;
 
     private String description;
-
-    private String icon;
-
 }

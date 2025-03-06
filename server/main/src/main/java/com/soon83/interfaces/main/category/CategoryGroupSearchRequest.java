@@ -20,7 +20,4 @@ public class CategoryGroupSearchRequest {
 
     @Size(max = 63, message = "카테고리 그룹 설명의 최대 길이는 63 입니다.")
     private String description;
-
-    @Size(max = 511, message = "카테고리 그룹 아이콘의 최대 길이는 511 입니다.")
-    private String icon;
 }

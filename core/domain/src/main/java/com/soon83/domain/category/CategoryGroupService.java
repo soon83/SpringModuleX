@@ -53,7 +53,7 @@ public class CategoryGroupService {
      */
     @Transactional
     public CategoryGroupInfo createCategoryGroupInfo(CategoryGroupCreateCommand command) {
-        CategoryGroup categoryGroupEntity = CategoryGroupFactory.createCategoryGroup(command);
+        CategoryGroup categoryGroupEntity = categoryGroupDomainMapper.toCategoryGroupEntity(command);
         CategoryGroup createdCategoryGroup = categoryGroupStore.create(categoryGroupEntity);
         return categoryGroupDomainMapper.toCategoryGroupInfo(createdCategoryGroup);
     }
@@ -74,7 +74,7 @@ public class CategoryGroupService {
     @Transactional
     public CategoryGroupInfo updateCategoryGroupInfo(CategoryGroupUpdateCommand command) {
         CategoryGroup categoryGroup = categoryGroupReader.getCategoryGroupOrThrow(command.getCategoryGroupId());
-        CategoryGroupFactory.updateCategoryGroup(categoryGroup, command);
+        categoryGroupDomainMapper.updateCategoryGroup(categoryGroup, command);
         return categoryGroupDomainMapper.toCategoryGroupInfo(categoryGroup);
     }
 
